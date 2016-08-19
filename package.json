@@ -1,0 +1,20 @@
+{
+  "name": "@studio/lambda",
+  "version": "0.0.0",
+  "description": "",
+  "private": true,
+  "author": "Maximilian Antoni <mail@maxantoni.de> (http://maxantoni.de/)",
+  "main": "lib/lambda.js",
+  "scripts": {
+    "lint": "eslint .",
+    "test": "mocha",
+    "watch": "mocha --watch",
+    "posttest": "npm run lint",
+    "start": "node ."
+  },
+  "devDependencies": {
+    "eslint": "^3.0.1",
+    "mocha": "^3.0.0",
+    "sinon": "^1.17.4"
+  }
+}
