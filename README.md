@@ -1,7 +1,7 @@
 # Studio Lambda
 
-A custom lambda execution environment. Runs each lambda function in it's own
-process.
+A custom lambda execution environment for local testing. Runs each lambda
+function in it's own process. Defaults are tailored for [apex][].
 
 ## Usage
 
@@ -22,7 +22,7 @@ lambda_ctrl.invoke('some-lambda', { some: 'event' }, callback);
       object.
     - `config_file`: A JSON file with additional `environment` and `timeout`
       properties. Defaults to
-      `functions/${LAMBDA_NAME}/function.${env.AWS_PROFILE}.json`.
+      `functions/${LAMBDA_NAME}/function.${AWS_PROFILE}.json`.
     - `timeout`: The default lambda timeout to use in milliseconds. Defaults
       to 5 seconds.
     - `max_idle`: The idle timeout to use in milliseconds. If a function is
@@ -30,3 +30,4 @@ lambda_ctrl.invoke('some-lambda', { some: 'event' }, callback);
 - `lambda_ctrl.invoke(lambda_name, event, callback)`: Invokes the named lambda
   `handle` function, passing `(event, {}, callback)`.
 
+[apex]: http://apex.run
