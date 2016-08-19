@@ -12,7 +12,11 @@
     "posttest": "npm run lint",
     "start": "node ."
   },
+  "eslintConfig": {
+    "extends": "@studio"
+  },
   "devDependencies": {
+    "@studio/eslint-config": "0.0.0",
     "eslint": "^3.0.1",
     "mocha": "^3.0.0",
     "sinon": "^1.17.4"
