@@ -2,13 +2,24 @@
 'use strict';
 
 const assert = require('assert');
+const sinon = require('sinon');
 const lambda = require('..');
 
 
 describe('lambda', () => {
+  let sandbox;
 
   before(() => {
     process.chdir(`${__dirname}/fixture`);
+  });
+
+  beforeEach(() => {
+    sandbox = sinon.sandbox.create();
+    sandbox.stub(console, 'info');
+  });
+
+  afterEach(() => {
+    sandbox.restore();
   });
 
   it('invokes lambda with event', (done) => {
@@ -102,17 +113,22 @@ describe('lambda', () => {
   });
 
   it('kills lambda after default timeout', (done) => {
+    sandbox.stub(console, 'warn');
+
     const lambda_ctrl = lambda.create({
       timeout: 100
     });
 
     lambda_ctrl.invoke('timeout', {}, (err) => {
       assert.equal(err, '{"code":"E_TIMEOUT"}');
+      sinon.assert.calledOnce(console.warn);
       done();
     });
   });
 
   it('kills lambda after configured timeout', (done) => {
+    sandbox.stub(console, 'warn');
+
     const lambda_ctrl = lambda.create({
       env: {
         AWS_PROFILE: 'local'
@@ -121,6 +137,7 @@ describe('lambda', () => {
 
     lambda_ctrl.invoke('timeout-file', {}, (err) => {
       assert.equal(err, '{"code":"E_TIMEOUT"}');
+      sinon.assert.calledOnce(console.warn);
       done();
     });
   });
