@@ -107,7 +107,7 @@ describe('lambda', () => {
     });
 
     lambda_ctrl.invoke('timeout', {}, (err) => {
-      assert.equal(err, 'E_TIMEOUT');
+      assert.equal(err, '{"code":"E_TIMEOUT"}');
       done();
     });
   });
@@ -120,7 +120,7 @@ describe('lambda', () => {
     });
 
     lambda_ctrl.invoke('timeout-file', {}, (err) => {
-      assert.equal(err, 'E_TIMEOUT');
+      assert.equal(err, '{"code":"E_TIMEOUT"}');
       done();
     });
   });
