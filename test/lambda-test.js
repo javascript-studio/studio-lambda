@@ -32,6 +32,26 @@ describe('lambda', () => {
     });
   });
 
+  it('invokes lambda with default context', (done) => {
+    const lambda_ctrl = lambda.create();
+
+    lambda_ctrl.invoke('context', {}, (err, value) => {
+      assert.equal(err, null);
+      assert.equal(value, '{}');
+      done();
+    });
+  });
+
+  it('invokes lambda with given context', (done) => {
+    const lambda_ctrl = lambda.create();
+
+    lambda_ctrl.invoke('context', {}, { some: 'data' }, (err, value) => {
+      assert.equal(err, null);
+      assert.equal(value, '{"some":"data"}');
+      done();
+    });
+  });
+
   it('invokes lambda with environment variables from options', (done) => {
     const lambda_ctrl = lambda.create({
       env: {

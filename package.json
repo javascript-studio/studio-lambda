@@ -6,8 +6,8 @@
   "main": "lib/lambda.js",
   "scripts": {
     "lint": "eslint .",
-    "test": "mocha",
-    "watch": "mocha --watch",
+    "test": "mocha --slow=500",
+    "watch": "npm run test -- --watch",
     "posttest": "npm run lint",
     "start": "node .",
     "preversion": "npm test",

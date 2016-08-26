@@ -27,7 +27,8 @@ lambda_ctrl.invoke('some-lambda', { some: 'event' }, callback);
       to 5 seconds.
     - `max_idle`: The idle timeout to use in milliseconds. If a function is
       not invoked for this time, the process gets destroyed. Defaults to 1 hour.
-- `lambda_ctrl.invoke(lambda_name, event, callback)`: Invokes the named lambda
-  `handle` function, passing `(event, {}, callback)`.
+- `lambda_ctrl.invoke(lambda_name, event[, context], callback)`: Invokes the
+  named lambda `handle` function, passing `(event, context, callback)`. If
+  `context` is not given, it defaults to an empty object.
 
 [apex]: http://apex.run
