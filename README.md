@@ -1,4 +1,4 @@
-# Studio Lambda
+# JavaScript Studio Lambda
 
 A custom lambda execution environment for local testing. Runs each lambda
 function in it's own process. Defaults are tailored for [apex][].
