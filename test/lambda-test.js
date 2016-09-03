@@ -162,4 +162,22 @@ describe('lambda', () => {
     });
   });
 
+  it('does not log Authorization', (done) => {
+    const lambda_ctrl = lambda.create();
+
+    lambda_ctrl.invoke('hello', { Authorization: 'Baerer abc123' }, () => {
+      sinon.assert.calledWithMatch(console.info, '"Authorization":"..."');
+      done();
+    });
+  });
+
+  it('does not log token', (done) => {
+    const lambda_ctrl = lambda.create();
+
+    lambda_ctrl.invoke('hello', { token: 'abc123', name: 'x' }, () => {
+      sinon.assert.calledWithMatch(console.info, '"token":"..."');
+      done();
+    });
+  });
+
 });
