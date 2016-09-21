@@ -1,5 +1,11 @@
 # Changes
 
+## 1.1.2
+
+- Pass `HOME` environment variable for the `aws-sdk` module to find the
+  credentials file
+- Change log emoji for send and receive events
+
 ## 1.1.1
 
 A few bug fixes and minor improvements:
