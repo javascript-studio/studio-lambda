@@ -180,4 +180,16 @@ describe('lambda', () => {
     });
   });
 
+  it('uses given base_dir', (done) => {
+    const lambda_ctrl = lambda.create({
+      base_dir: `${__dirname}/fixture/cwd`
+    });
+
+    lambda_ctrl.invoke('hello', { name: 'works' }, (err, value) => {
+      assert.equal(err, null);
+      assert.equal(value, 'Other dir works');
+      done();
+    });
+  });
+
 });

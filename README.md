@@ -16,6 +16,8 @@ lambda_ctrl.invoke('some-lambda', { some: 'event' }, callback);
 
 - `lambda_ctrl = lambda.create([options])`: Returns a new lambda controller for
   the given options.
+    - `base_dir`: The base directory to use. Defaults to the current working
+      directory.
     - `lambda_path`: The path to the lambda function. Replaces `${LAMBDA_NAME}`
       with the lambda name. Defaults to `functions/${LAMBDA_NAME}/`.
     - `env`: An object with environment variables to use. Defaults to an empty
