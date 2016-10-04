@@ -136,7 +136,7 @@ describe('lambda', () => {
     sandbox.stub(console, 'warn');
 
     const lambda_ctrl = lambda.create({
-      timeout: 100
+      timeout: 0.1
     });
 
     lambda_ctrl.invoke('timeout', {}, (err) => {
