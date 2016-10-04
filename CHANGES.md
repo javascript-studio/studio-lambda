@@ -1,5 +1,9 @@
 # Changes
 
+## 1.2.1
+
+- Timeouts are defined in seconds
+
 ## 1.2.0
 
 - Add `base_dir` config option
