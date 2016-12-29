@@ -1,5 +1,9 @@
 # Changes
 
+## 1.2.2
+
+- Handle invalid lambda response
+
 ## 1.2.1
 
 - Timeouts are defined in seconds
