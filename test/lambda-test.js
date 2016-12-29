@@ -32,6 +32,17 @@ describe('lambda', () => {
     });
   });
 
+  it('handles invalid response', (done) => {
+    const lambda_ctrl = lambda.create();
+
+    lambda_ctrl.invoke('invalid-response', {}, (err) => {
+      assert.equal(err.name, 'Error');
+      assert.equal(err.message.startsWith(
+        'Lambda invalid-response message parse error'), true);
+      done();
+    });
+  });
+
   it('invokes lambda with default context', (done) => {
     const lambda_ctrl = lambda.create();
 
