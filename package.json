@@ -25,6 +25,7 @@
     "sinon": "^1.17.4"
   },
   "dependencies": {
+    "@studio/log": "^1.0.2",
     "xtend": "^4.0.1"
   }
 }

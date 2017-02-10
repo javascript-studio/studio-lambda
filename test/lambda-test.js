@@ -3,8 +3,10 @@
 
 const assert = require('assert');
 const sinon = require('sinon');
+const logger = require('@studio/log');
 const lambda = require('..');
 
+const log = logger('lambda');
 
 describe('lambda', () => {
   let sandbox;
@@ -15,7 +17,6 @@ describe('lambda', () => {
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
-    sandbox.stub(console, 'info');
   });
 
   afterEach(() => {
@@ -144,7 +145,7 @@ describe('lambda', () => {
   });
 
   it('kills lambda after default timeout', (done) => {
-    sandbox.stub(console, 'warn');
+    sandbox.stub(log, 'warn');
 
     const lambda_ctrl = lambda.create({
       timeout: 0.1
@@ -152,13 +153,13 @@ describe('lambda', () => {
 
     lambda_ctrl.invoke('timeout', {}, (err) => {
       assert.equal(err, '{"code":"E_TIMEOUT"}');
-      sinon.assert.calledOnce(console.warn);
+      sinon.assert.calledOnce(log.warn);
       done();
     });
   });
 
   it('kills lambda after configured timeout', (done) => {
-    sandbox.stub(console, 'warn');
+    sandbox.stub(log, 'warn');
 
     const lambda_ctrl = lambda.create({
       env: {
@@ -168,25 +169,33 @@ describe('lambda', () => {
 
     lambda_ctrl.invoke('timeout-file', {}, (err) => {
       assert.equal(err, '{"code":"E_TIMEOUT"}');
-      sinon.assert.calledOnce(console.warn);
+      sinon.assert.calledOnce(log.warn);
       done();
     });
   });
 
   it('does not log Authorization', (done) => {
+    sandbox.stub(log, 'input');
+
     const lambda_ctrl = lambda.create();
 
     lambda_ctrl.invoke('hello', { Authorization: 'Baerer abc123' }, () => {
-      sinon.assert.calledWithMatch(console.info, '"Authorization":"..."');
+      sinon.assert.calledWithMatch(log.input, 'Lambda event', {
+        event: { Authorization: '...' }
+      });
       done();
     });
   });
 
   it('does not log token', (done) => {
+    sandbox.stub(log, 'input');
+
     const lambda_ctrl = lambda.create();
 
     lambda_ctrl.invoke('hello', { token: 'abc123', name: 'x' }, () => {
-      sinon.assert.calledWithMatch(console.info, '"token":"..."');
+      sinon.assert.calledWithMatch(log.input, 'Lambda event', {
+        event: { token: '...' }
+      });
       done();
     });
   });
