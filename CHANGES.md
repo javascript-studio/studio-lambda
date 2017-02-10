@@ -1,5 +1,9 @@
 # Changes
 
+## 1.3.0
+
+- Use `@studio/log`
+
 ## 1.2.2
 
 - Handle invalid lambda response
