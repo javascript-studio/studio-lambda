@@ -1,5 +1,12 @@
 # Changes
 
+## 1.3.3
+
+- Improve log output filtering
+- Handle Lambda logs on stdout
+- Do not log `authorizationToken`
+- Fix log message with string event
+
 ## 1.3.2
 
 - Reduce duplication in log messages
