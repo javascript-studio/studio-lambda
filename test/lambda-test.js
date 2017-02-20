@@ -212,4 +212,31 @@ describe('lambda', () => {
     });
   });
 
+  it('handles log output', (done) => {
+    const lambda_log = logger('Lambda log');
+    const lambda_test_log = logger('Lambda log Test');
+    const lambda_ctrl = lambda.create();
+    sandbox.stub(lambda_log, 'ignore');
+    sandbox.stub(lambda_test_log, 'ok');
+    sandbox.stub(lambda_test_log, 'warn');
+    sandbox.stub(lambda_test_log, 'error');
+    sandbox.stub(lambda_test_log, 'wtf');
+
+    lambda_ctrl.invoke('log', { is: 42 }, (err) => {
+      assert.ifError(err);
+      sinon.assert.calledOnce(lambda_log.ignore);
+      sinon.assert.calledWith(lambda_log.ignore, 'Raw log line');
+      sinon.assert.calledOnce(lambda_test_log.ok);
+      sinon.assert.calledWith(lambda_test_log.ok, 'Check');
+      sinon.assert.calledOnce(lambda_test_log.warn);
+      sinon.assert.calledWith(lambda_test_log.warn, { event: { is: 42 } });
+      sinon.assert.calledOnce(lambda_test_log.error);
+      sinon.assert.calledWith(lambda_test_log.error, { event: { is: 42 } },
+        sinon.match.string);
+      sinon.assert.calledOnce(lambda_test_log.wtf);
+      sinon.assert.calledWithExactly(lambda_test_log.wtf);
+      done();
+    });
+  });
+
 });
