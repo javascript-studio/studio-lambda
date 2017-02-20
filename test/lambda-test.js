@@ -180,7 +180,7 @@ describe('lambda', () => {
     const lambda_ctrl = lambda.create();
 
     lambda_ctrl.invoke('hello', { Authorization: 'Baerer abc123' }, () => {
-      sinon.assert.calledWithMatch(log.input, 'Lambda event', {
+      sinon.assert.calledWithMatch(log.input, {
         event: { Authorization: '...' }
       });
       done();
@@ -193,7 +193,7 @@ describe('lambda', () => {
     const lambda_ctrl = lambda.create();
 
     lambda_ctrl.invoke('hello', { token: 'abc123', name: 'x' }, () => {
-      sinon.assert.calledWithMatch(log.input, 'Lambda event', {
+      sinon.assert.calledWithMatch(log.input, {
         event: { token: '...' }
       });
       done();
