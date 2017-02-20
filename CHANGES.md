@@ -1,5 +1,9 @@
 # Changes
 
+## 1.3.1
+
+- Rename logger
+
 ## 1.3.0
 
 - Use `@studio/log`
