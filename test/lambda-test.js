@@ -6,7 +6,7 @@ const sinon = require('sinon');
 const logger = require('@studio/log');
 const lambda = require('..');
 
-const log = logger('lambda');
+const log = logger('Lambda');
 
 describe('lambda', () => {
   let sandbox;
