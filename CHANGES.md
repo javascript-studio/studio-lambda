@@ -1,5 +1,9 @@
 # Changes
 
+## 1.3.2
+
+- Reduce duplication in log messages
+
 ## 1.3.1
 
 - Rename logger
