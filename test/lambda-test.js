@@ -92,6 +92,18 @@ describe('lambda', () => {
     });
   });
 
+  it('invokes lambda with DEBUG environment variables', (done) => {
+    process.env.DEBUG = 'ON';
+
+    const lambda_ctrl = lambda.create({});
+
+    lambda_ctrl.invoke('debug', {}, (err, value) => {
+      assert.equal(err, null);
+      assert.equal(value, 'Debug ON');
+      done();
+    });
+  });
+
   it('reuses lambda process', (done) => {
     const lambda_ctrl = lambda.create();
 
