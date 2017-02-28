@@ -1,5 +1,9 @@
 # Changes
 
+## 1.4.0
+
+- Pass on `process.env.DEBUG`
+
 ## 1.3.3
 
 - Improve log output filtering
