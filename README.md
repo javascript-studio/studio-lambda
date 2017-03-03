@@ -33,4 +33,12 @@ lambda_ctrl.invoke('some-lambda', { some: 'event' }, callback);
   named lambda `handle` function, passing `(event, context, callback)`. If
   `context` is not given, it defaults to an empty object.
 
+## Debugging Lambda functions
+
+If the environment variable `STUDIO_LAMBDA_INSPECT` is set to the name of a
+Lambda function, the node process for that function will be called with
+`--inspect` and the timeout value is ignored. This prints a Chrome debugger URL
+to the console. With this setup in place, you can add `debugger` statements to
+place breakpoints.
+
 [apex]: http://apex.run
