@@ -1,5 +1,9 @@
 # Changes
 
+## 1.5.0
+
+- Add Lamdba debugging option
+
 ## 1.4.0
 
 - Pass on `process.env.DEBUG`
