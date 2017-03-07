@@ -1,5 +1,14 @@
 # Changes
 
+## 1.6.1
+
+Log output improvements:
+
+- 🔢  Include the Lambda execution time in the stats log message
+- 🙈  Set `config_file` to `"<defaults>"` if not found
+- 🙈  Remove messages to streamline log output
+
+
 ## 1.6.0
 
 - 🔢  Log Lambda process memory usage
