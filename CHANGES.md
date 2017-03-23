@@ -1,5 +1,13 @@
 # Changes
 
+## 1.6.2
+
+- 🐛  Pass on parent process `execArgv`
+
+    This allows to invoke the parent process with v8 options like
+    `--stack-trace-limit=50` and have them passed on to the Lambda
+    processes. This restores the default behavior for child processes.
+
 ## 1.6.1
 
 Log output improvements:
