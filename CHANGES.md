@@ -1,5 +1,12 @@
 # Changes
 
+## 1.7.0
+
+- Do not log lambda input and output
+
+    The new `@studio/wrap` implementation already do logging within the
+    Lambda function. Log filtering should also be applied there.
+
 ## 1.6.2
 
 - 🐛  Pass on parent process `execArgv`
@@ -15,7 +22,6 @@ Log output improvements:
 - 🔢  Include the Lambda execution time in the stats log message
 - 🙈  Set `config_file` to `"<defaults>"` if not found
 - 🙈  Remove messages to streamline log output
-
 
 ## 1.6.0
 
