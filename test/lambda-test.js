@@ -186,32 +186,6 @@ describe('lambda', () => {
     });
   });
 
-  it('does not log Authorization', (done) => {
-    sandbox.stub(log, 'input');
-
-    const lambda_ctrl = lambda.create();
-
-    lambda_ctrl.invoke('hello', { Authorization: 'Baerer abc123' }, () => {
-      sinon.assert.calledWithMatch(log.input, {
-        event: { Authorization: '...' }
-      });
-      done();
-    });
-  });
-
-  it('does not log token', (done) => {
-    sandbox.stub(log, 'input');
-
-    const lambda_ctrl = lambda.create();
-
-    lambda_ctrl.invoke('hello', { token: 'abc123', name: 'x' }, () => {
-      sinon.assert.calledWithMatch(log.input, {
-        event: { token: '...' }
-      });
-      done();
-    });
-  });
-
   it('uses given base_dir', (done) => {
     const lambda_ctrl = lambda.create({
       base_dir: `${__dirname}/fixture/cwd`
