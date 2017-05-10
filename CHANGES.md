@@ -1,5 +1,13 @@
 # Changes
 
+## 1.8.0
+
+- 🍏 Support environment variable replacement in Lambda config files
+
+    > If a config file contains placeholders in the form `${ENV_VAR}`, they are
+    > replaced with the corresponding environment variable. This feature is not
+    > supported by Apex. Use it to configure secret variables in local configs.
+
 ## 1.7.0
 
 - 🙊 Do not log Lambda input and output
