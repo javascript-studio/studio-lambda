@@ -1,6 +1,8 @@
 /*eslint-env mocha*/
 'use strict';
 
+process.env.AWS_PROFILE = 'studio-lambda-test';
+
 const assert = require('assert');
 const sinon = require('sinon');
 const logger = require('@studio/log');
@@ -79,6 +81,7 @@ describe('lambda', () => {
   });
 
   it('invokes lambda with environment variables from file', (done) => {
+    process.env.STUDIO_ENVIRONMENT_VARIABLE = 'JavaScript Studio';
     const lambda_ctrl = lambda.create({
       env: {
         AWS_PROFILE: 'local'
@@ -86,8 +89,24 @@ describe('lambda', () => {
     });
 
     lambda_ctrl.invoke('env-file', {}, (err, value) => {
+      delete process.env.STUDIO_ENVIRONMENT_VARIABLE;
       assert.equal(err, null);
       assert.equal(value, 'Hello JavaScript Studio');
+      done();
+    });
+  });
+
+  it('fails to launch lambda if environment variable is missing', (done) => {
+    const lambda_ctrl = lambda.create({
+      env: {
+        AWS_PROFILE: 'local'
+      }
+    });
+
+    lambda_ctrl.invoke('env-file', {}, (err) => {
+      assert.equal(err, JSON.stringify({
+        message: 'Failed to launch "env-file"'
+      }));
       done();
     });
   });
