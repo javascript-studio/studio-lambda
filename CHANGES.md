@@ -1,5 +1,13 @@
 # Changes
 
+## 1.8.1
+
+- 🐛 Fail on missing environment variables
+
+    > - Throw an error if a variable replacement fails.
+    > - Handle launch exceptions by logging an error and invoking the callback
+    >   with an error message.
+
 ## 1.8.0
 
 - 🍏 Support environment variable replacement in Lambda config files
