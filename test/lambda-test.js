@@ -205,6 +205,25 @@ describe('lambda', () => {
     });
   });
 
+  it('does not fail to talk to lambda after two where killed', (done) => {
+    sandbox.stub(log, 'warn');
+
+    const lambda_ctrl = lambda.create({
+      timeout: 0.1
+    });
+
+    lambda_ctrl.invoke('timeout', {}, (err) => {
+      assert.equal(err, '{"code":"E_TIMEOUT"}');
+    });
+    lambda_ctrl.invoke('timeout', {}, (err) => {
+      assert.equal(err, '{"code":"E_TIMEOUT"}');
+      lambda_ctrl.invoke('timeout', {}, (err) => {
+        assert.equal(err, '{"code":"E_TIMEOUT"}');
+        done();
+      });
+    });
+  });
+
   it('uses given base_dir', (done) => {
     const lambda_ctrl = lambda.create({
       base_dir: `${__dirname}/fixture/cwd`
