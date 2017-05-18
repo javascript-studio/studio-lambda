@@ -1,5 +1,14 @@
 # Changes
 
+## 1.8.2
+
+- 🐛 Fix entries cleanup in kill handler
+
+    > The entries array is not necessarily cleaned up in reverse insertion
+    > order. With this patch, the kill handler does not expect the entry at a
+    > fixed position, but queries the entry to remove by ID instead.
+
+
 ## 1.8.1
 
 - 🐛 Fail on missing environment variables
