@@ -93,7 +93,22 @@ describe('lambda', () => {
 
     lambda.invoke('context', {}, { some: 'data' }, (err, value) => {
       assert.equal(err, null);
-      assert.equal(value, '{"some":"data"}');
+      assert.equal(value, JSON.stringify({
+        some: 'data',
+        invokedFunctionArn: 'arn:aws:lambda:us-east-1:0000:function:context'
+      }));
+      done();
+    });
+  });
+
+  it('does not replace given `invokedFunctionArn`', (done) => {
+    const lambda = Lambda.create();
+
+    lambda.invoke('context', {}, {
+      invokedFunctionArn: '1:2:3'
+    }, (err, value) => {
+      assert.equal(err, null);
+      assert.equal(value, '{"invokedFunctionArn":"1:2:3"}');
       done();
     });
   });

@@ -38,6 +38,8 @@ lambda.invoke('some-lambda', { some: 'event' }, callback);
     - `invokedFunctionArn`: The function ARN, build from the `AWS_REGION`
       (defaulting to `us-east-1`), `STUDIO_AWS_ACCOUNT` (defaulting to `0000`)
       and the Lambda function name.
+  If a context is given, but one of the above properties is missing, they are
+  added to the context.
 
 ## Debugging Lambda functions
 
