@@ -32,9 +32,12 @@ lambda.invoke('some-lambda', { some: 'event' }, callback);
       to 5 seconds.
     - `max_idle`: The idle timeout to use in milliseconds. If a function is
       not invoked for this time, the process gets destroyed. Defaults to 1 hour.
-- `lambda_ctrl.invoke(lambda_name, event[, context], callback)`: Invokes the
-  named Lambda `handle` function, passing `(event, context, callback)`. If
-  `context` is not given, it defaults to an empty object.
+- `lambda.invoke(lambda_name, event[, context], callback)`: Invokes the named
+  Lambda `handle` function, passing `(event, context, callback)`. If `context`
+  is not given, it defaults to an object with these properties:
+    - `invokedFunctionArn`: The function ARN, build from the `AWS_REGION`
+      (defaulting to `us-east-1`), `STUDIO_AWS_ACCOUNT` (defaulting to `0000`)
+      and the Lambda function name.
 
 ## Debugging Lambda functions
 

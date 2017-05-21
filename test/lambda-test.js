@@ -51,7 +51,39 @@ describe('lambda', () => {
 
     lambda.invoke('context', {}, (err, value) => {
       assert.equal(err, null);
-      assert.equal(value, '{}');
+      assert.equal(value, JSON.stringify({
+        invokedFunctionArn: 'arn:aws:lambda:us-east-1:0000:function:context'
+      }));
+      done();
+    });
+  });
+
+  it('uses AWS_REGION environment variable in function ARN', (done) => {
+    process.env.AWS_REGION = 'eu-central-1';
+
+    const lambda = Lambda.create();
+
+    lambda.invoke('context', {}, (err, value) => {
+      assert.equal(err, null);
+      assert.equal(value, JSON.stringify({
+        invokedFunctionArn: 'arn:aws:lambda:eu-central-1:0000:function:context'
+      }));
+      delete process.env.AWS_REGION;
+      done();
+    });
+  });
+
+  it('uses STUDIO_AWS_ACCOUNT environment variable in function ARN', (done) => {
+    process.env.STUDIO_AWS_ACCOUNT = '12345678';
+
+    const lambda = Lambda.create();
+
+    lambda.invoke('context', {}, (err, value) => {
+      assert.equal(err, null);
+      assert.equal(value, JSON.stringify({
+        invokedFunctionArn: 'arn:aws:lambda:us-east-1:12345678:function:context'
+      }));
+      delete process.env.STUDIO_AWS_ACCOUNT;
       done();
     });
   });
