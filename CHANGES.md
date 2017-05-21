@@ -1,5 +1,9 @@
 # Changes
 
+## 1.9.1
+
+- 🐛 Add `invokedFunctionArn` to given context if missing
+
 ## 1.9.0
 
 - 🍏 Generate `invokedFunctionArn` in default context
