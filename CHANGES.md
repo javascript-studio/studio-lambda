@@ -1,5 +1,10 @@
 # Changes
 
+## 1.9.0
+
+- 🍏 Generate `invokedFunctionArn` in default context
+- 📚 Use upper case `Lambda` module name in examples
+
 ## 1.8.2
 
 - 🐛 Fix entries cleanup in kill handler
