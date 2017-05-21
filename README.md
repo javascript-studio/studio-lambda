@@ -7,15 +7,15 @@ Defaults are tailored for [apex][3].
 ## Usage
 
 ```js
-const lambda = require('@studio/lambda');
+const Lambda = require('@studio/lambda');
 
-const lambda_ctrl = lambda.create();
-lambda_ctrl.invoke('some-lambda', { some: 'event' }, callback);
+const lambda = Lambda.create();
+lambda.invoke('some-lambda', { some: 'event' }, callback);
 ```
 
 ## API
 
-- `lambda_ctrl = lambda.create([options])`: Returns a new Lambda controller for
+- `lambda = Lambda.create([options])`: Returns a new Lambda controller for
   the given options.
     - `base_dir`: The base directory to use. Defaults to the current working
       directory.

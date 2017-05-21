@@ -6,7 +6,7 @@ process.env.AWS_PROFILE = 'studio-lambda-test';
 const assert = require('assert');
 const sinon = require('sinon');
 const logger = require('@studio/log');
-const lambda = require('..');
+const Lambda = require('..');
 
 const log = logger('Lambda');
 
@@ -26,9 +26,9 @@ describe('lambda', () => {
   });
 
   it('invokes lambda with event', (done) => {
-    const lambda_ctrl = lambda.create();
+    const lambda = Lambda.create();
 
-    lambda_ctrl.invoke('hello', { name: 'JavaScript Studio' }, (err, value) => {
+    lambda.invoke('hello', { name: 'JavaScript Studio' }, (err, value) => {
       assert.equal(err, null);
       assert.equal(value, 'Hello JavaScript Studio');
       done();
@@ -36,9 +36,9 @@ describe('lambda', () => {
   });
 
   it('handles invalid response', (done) => {
-    const lambda_ctrl = lambda.create();
+    const lambda = Lambda.create();
 
-    lambda_ctrl.invoke('invalid-response', {}, (err) => {
+    lambda.invoke('invalid-response', {}, (err) => {
       assert.equal(err.name, 'Error');
       assert.equal(err.message.startsWith(
         'Lambda invalid-response message parse error'), true);
@@ -47,9 +47,9 @@ describe('lambda', () => {
   });
 
   it('invokes lambda with default context', (done) => {
-    const lambda_ctrl = lambda.create();
+    const lambda = Lambda.create();
 
-    lambda_ctrl.invoke('context', {}, (err, value) => {
+    lambda.invoke('context', {}, (err, value) => {
       assert.equal(err, null);
       assert.equal(value, '{}');
       done();
@@ -57,9 +57,9 @@ describe('lambda', () => {
   });
 
   it('invokes lambda with given context', (done) => {
-    const lambda_ctrl = lambda.create();
+    const lambda = Lambda.create();
 
-    lambda_ctrl.invoke('context', {}, { some: 'data' }, (err, value) => {
+    lambda.invoke('context', {}, { some: 'data' }, (err, value) => {
       assert.equal(err, null);
       assert.equal(value, '{"some":"data"}');
       done();
@@ -67,13 +67,13 @@ describe('lambda', () => {
   });
 
   it('invokes lambda with environment variables from options', (done) => {
-    const lambda_ctrl = lambda.create({
+    const lambda = Lambda.create({
       env: {
         STUDIO_ENV_VAR: 'JavaScript Studio'
       }
     });
 
-    lambda_ctrl.invoke('env', {}, (err, value) => {
+    lambda.invoke('env', {}, (err, value) => {
       assert.equal(err, null);
       assert.equal(value, 'Hello JavaScript Studio');
       done();
@@ -82,13 +82,13 @@ describe('lambda', () => {
 
   it('invokes lambda with environment variables from file', (done) => {
     process.env.STUDIO_ENVIRONMENT_VARIABLE = 'JavaScript Studio';
-    const lambda_ctrl = lambda.create({
+    const lambda = Lambda.create({
       env: {
         AWS_PROFILE: 'local'
       }
     });
 
-    lambda_ctrl.invoke('env-file', {}, (err, value) => {
+    lambda.invoke('env-file', {}, (err, value) => {
       delete process.env.STUDIO_ENVIRONMENT_VARIABLE;
       assert.equal(err, null);
       assert.equal(value, 'Hello JavaScript Studio');
@@ -97,13 +97,13 @@ describe('lambda', () => {
   });
 
   it('fails to launch lambda if environment variable is missing', (done) => {
-    const lambda_ctrl = lambda.create({
+    const lambda = Lambda.create({
       env: {
         AWS_PROFILE: 'local'
       }
     });
 
-    lambda_ctrl.invoke('env-file', {}, (err) => {
+    lambda.invoke('env-file', {}, (err) => {
       assert.equal(err, JSON.stringify({
         message: 'Failed to launch "env-file"'
       }));
@@ -114,9 +114,9 @@ describe('lambda', () => {
   it('invokes lambda with DEBUG environment variables', (done) => {
     process.env.DEBUG = 'ON';
 
-    const lambda_ctrl = lambda.create({});
+    const lambda = Lambda.create({});
 
-    lambda_ctrl.invoke('debug', {}, (err, value) => {
+    lambda.invoke('debug', {}, (err, value) => {
       assert.equal(err, null);
       assert.equal(value, 'Debug ON');
       done();
@@ -124,12 +124,12 @@ describe('lambda', () => {
   });
 
   it('reuses lambda process', (done) => {
-    const lambda_ctrl = lambda.create();
+    const lambda = Lambda.create();
 
-    lambda_ctrl.invoke('reuse', {}, (err, value) => {
+    lambda.invoke('reuse', {}, (err, value) => {
       assert.equal(err, null);
       assert.equal(value, 'Count 1');
-      lambda_ctrl.invoke('reuse', {}, (err, value) => {
+      lambda.invoke('reuse', {}, (err, value) => {
         assert.equal(err, null);
         assert.equal(value, 'Count 2');
         done();
@@ -138,17 +138,17 @@ describe('lambda', () => {
   });
 
   it('runs lambda concurrently', (done) => {
-    const lambda_ctrl = lambda.create();
+    const lambda = Lambda.create();
     let invokes = 0;
 
-    lambda_ctrl.invoke('concurrent', {}, (err, value) => {
+    lambda.invoke('concurrent', {}, (err, value) => {
       assert.equal(err, null);
       assert.equal(value, 'Count 1');
       if (++invokes === 2) {
         done();
       }
     });
-    lambda_ctrl.invoke('concurrent', {}, (err, value) => {
+    lambda.invoke('concurrent', {}, (err, value) => {
       assert.equal(err, null);
       assert.equal(value, 'Count 1');
       if (++invokes === 2) {
@@ -158,15 +158,15 @@ describe('lambda', () => {
   });
 
   it('shuts down lambda after max_idle', (done) => {
-    const lambda_ctrl = lambda.create({
+    const lambda = Lambda.create({
       max_idle: 200
     });
 
-    lambda_ctrl.invoke('reuse', {}, (err, value) => {
+    lambda.invoke('reuse', {}, (err, value) => {
       assert.equal(err, null);
       assert.equal(value, 'Count 1');
       setTimeout(() => {
-        lambda_ctrl.invoke('reuse', {}, (err, value) => {
+        lambda.invoke('reuse', {}, (err, value) => {
           assert.equal(err, null);
           assert.equal(value, 'Count 1');
           done();
@@ -178,11 +178,11 @@ describe('lambda', () => {
   it('kills lambda after default timeout', (done) => {
     sandbox.stub(log, 'warn');
 
-    const lambda_ctrl = lambda.create({
+    const lambda = Lambda.create({
       timeout: 0.1
     });
 
-    lambda_ctrl.invoke('timeout', {}, (err) => {
+    lambda.invoke('timeout', {}, (err) => {
       assert.equal(err, '{"code":"E_TIMEOUT"}');
       sinon.assert.calledOnce(log.warn);
       done();
@@ -192,13 +192,13 @@ describe('lambda', () => {
   it('kills lambda after configured timeout', (done) => {
     sandbox.stub(log, 'warn');
 
-    const lambda_ctrl = lambda.create({
+    const lambda = Lambda.create({
       env: {
         AWS_PROFILE: 'local'
       }
     });
 
-    lambda_ctrl.invoke('timeout-file', {}, (err) => {
+    lambda.invoke('timeout-file', {}, (err) => {
       assert.equal(err, '{"code":"E_TIMEOUT"}');
       sinon.assert.calledOnce(log.warn);
       done();
@@ -208,16 +208,16 @@ describe('lambda', () => {
   it('does not fail to talk to lambda after two where killed', (done) => {
     sandbox.stub(log, 'warn');
 
-    const lambda_ctrl = lambda.create({
+    const lambda = Lambda.create({
       timeout: 0.1
     });
 
-    lambda_ctrl.invoke('timeout', {}, (err) => {
+    lambda.invoke('timeout', {}, (err) => {
       assert.equal(err, '{"code":"E_TIMEOUT"}');
     });
-    lambda_ctrl.invoke('timeout', {}, (err) => {
+    lambda.invoke('timeout', {}, (err) => {
       assert.equal(err, '{"code":"E_TIMEOUT"}');
-      lambda_ctrl.invoke('timeout', {}, (err) => {
+      lambda.invoke('timeout', {}, (err) => {
         assert.equal(err, '{"code":"E_TIMEOUT"}');
         done();
       });
@@ -225,11 +225,11 @@ describe('lambda', () => {
   });
 
   it('uses given base_dir', (done) => {
-    const lambda_ctrl = lambda.create({
+    const lambda = Lambda.create({
       base_dir: `${__dirname}/fixture/cwd`
     });
 
-    lambda_ctrl.invoke('hello', { name: 'works' }, (err, value) => {
+    lambda.invoke('hello', { name: 'works' }, (err, value) => {
       assert.equal(err, null);
       assert.equal(value, 'Other dir works');
       done();
@@ -239,14 +239,14 @@ describe('lambda', () => {
   it('handles log output', (done) => {
     const lambda_log = logger('Lambda log');
     const lambda_test_log = logger('Lambda log Test');
-    const lambda_ctrl = lambda.create();
+    const lambda = Lambda.create();
     sandbox.stub(lambda_log, 'ignore');
     sandbox.stub(lambda_test_log, 'ok');
     sandbox.stub(lambda_test_log, 'warn');
     sandbox.stub(lambda_test_log, 'error');
     sandbox.stub(lambda_test_log, 'wtf');
 
-    lambda_ctrl.invoke('log', { is: 42 }, (err) => {
+    lambda.invoke('log', { is: 42 }, (err) => {
       assert.ifError(err);
       sinon.assert.calledOnce(lambda_log.ignore);
       sinon.assert.calledWith(lambda_log.ignore, 'Raw log line');
