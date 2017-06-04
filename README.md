@@ -1,6 +1,6 @@
 # Studio Lambda
 
-A custom [AWS Lambda][1] execution environment for local testing. Runs
+🚀 A custom [AWS Lambda][1] execution environment for local testing. Runs
 each Lambda function in it's own process. Integrates with [Studio Gateway][2].
 Defaults are tailored for [apex][3].
 
