@@ -1,5 +1,15 @@
 # Changes
 
+## 1.10.0
+
+- ⚠️ Remove hack to filter log data
+
+    > Log data should be filtered where it's created. With the new
+    > `@studio/log-x` module and the updated `@studio/wrap` this hack can be
+    > removed.
+
+- ✨ Add `package-lock.json`
+
 ## 1.9.1
 
 - 🐛 Add `invokedFunctionArn` to given context if missing
