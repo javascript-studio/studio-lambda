@@ -1,5 +1,9 @@
 # Changes
 
+## 1.10.1
+
+- ✨ Use `@studio/ndjson` to parse log output from Lambdas
+
 ## 1.10.0
 
 - ⚠️ Remove hack to filter log data
