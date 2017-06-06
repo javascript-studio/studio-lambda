@@ -1,5 +1,9 @@
 # Changes
 
+## 1.11.1
+
+- 🐛 Improve generated `awsRequestId`
+
 ## 1.11.0
 
 - 🍏 Add support for `functionName`.
