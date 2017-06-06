@@ -47,6 +47,7 @@ describe('lambda', () => {
   });
 
   it('invokes lambda with default context', (done) => {
+    sandbox.useFakeTimers(123);
     const lambda = Lambda.create();
 
     lambda.invoke('context', {}, (err, value) => {
@@ -54,7 +55,7 @@ describe('lambda', () => {
       const res = JSON.parse(value);
       assert.equal(res.functionName, 'context');
       assert.equal(res.memoryLimitInMB, 128);
-      assert.equal(res.awsRequestId, '0');
+      assert.equal(res.awsRequestId, '000000123_context_1');
       assert.equal(res.invokedFunctionArn,
         'arn:aws:lambda:us-east-1:0000:function:context');
       done();
