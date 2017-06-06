@@ -51,64 +51,81 @@ describe('lambda', () => {
 
     lambda.invoke('context', {}, (err, value) => {
       assert.equal(err, null);
-      assert.equal(value, JSON.stringify({
-        invokedFunctionArn: 'arn:aws:lambda:us-east-1:0000:function:context'
-      }));
+      const res = JSON.parse(value);
+      assert.equal(res.functionName, 'context');
+      assert.equal(res.memoryLimitInMB, 128);
+      assert.equal(res.awsRequestId, '0');
+      assert.equal(res.invokedFunctionArn,
+        'arn:aws:lambda:us-east-1:0000:function:context');
       done();
     });
   });
 
   it('uses AWS_REGION environment variable in function ARN', (done) => {
-    process.env.AWS_REGION = 'eu-central-1';
-
-    const lambda = Lambda.create();
+    const lambda = Lambda.create({
+      env: {
+        AWS_REGION: 'eu-central-1'
+      }
+    });
 
     lambda.invoke('context', {}, (err, value) => {
       assert.equal(err, null);
-      assert.equal(value, JSON.stringify({
-        invokedFunctionArn: 'arn:aws:lambda:eu-central-1:0000:function:context'
-      }));
-      delete process.env.AWS_REGION;
+      const res = JSON.parse(value);
+      assert.equal(res.invokedFunctionArn,
+        'arn:aws:lambda:eu-central-1:0000:function:context');
       done();
     });
   });
 
   it('uses STUDIO_AWS_ACCOUNT environment variable in function ARN', (done) => {
-    process.env.STUDIO_AWS_ACCOUNT = '12345678';
-
-    const lambda = Lambda.create();
+    const lambda = Lambda.create({
+      env: {
+        STUDIO_AWS_ACCOUNT: '12345678'
+      }
+    });
 
     lambda.invoke('context', {}, (err, value) => {
       assert.equal(err, null);
-      assert.equal(value, JSON.stringify({
-        invokedFunctionArn: 'arn:aws:lambda:us-east-1:12345678:function:context'
-      }));
-      delete process.env.STUDIO_AWS_ACCOUNT;
+      const res = JSON.parse(value);
+      assert.equal(res.invokedFunctionArn,
+        'arn:aws:lambda:us-east-1:12345678:function:context');
       done();
     });
   });
 
-  it('invokes lambda with given context', (done) => {
+  it('invokes lambda with given awsRequestId', (done) => {
     const lambda = Lambda.create();
 
-    lambda.invoke('context', {}, { some: 'data' }, (err, value) => {
+    lambda.invoke('context', {}, { awsRequestId: '666' }, (err, value) => {
       assert.equal(err, null);
-      assert.equal(value, JSON.stringify({
-        some: 'data',
-        invokedFunctionArn: 'arn:aws:lambda:us-east-1:0000:function:context'
-      }));
+      const res = JSON.parse(value);
+      assert.equal(res.awsRequestId, '666');
+      assert.equal(res.invokedFunctionArn,
+        'arn:aws:lambda:us-east-1:0000:function:context');
       done();
     });
   });
 
-  it('does not replace given `invokedFunctionArn`', (done) => {
+  it('implements getRemainingTimeInMillis() (default timeout)', (done) => {
     const lambda = Lambda.create();
 
-    lambda.invoke('context', {}, {
-      invokedFunctionArn: '1:2:3'
-    }, (err, value) => {
+    lambda.invoke('getRemainingTimeInMillis', {}, (err, value) => {
       assert.equal(err, null);
-      assert.equal(value, '{"invokedFunctionArn":"1:2:3"}');
+      assert.equal(value > 4950, true);
+      assert.equal(value < 5000, true);
+      done();
+    });
+  });
+
+  it('implements getRemainingTimeInMillis() (configured timeout)', (done) => {
+    const lambda = Lambda.create({
+      timeout: 1
+    });
+
+    lambda.invoke('getRemainingTimeInMillis', {}, (err, value) => {
+      assert.equal(err, null);
+      assert.equal(value > 950, true);
+      assert.equal(value < 1000, true);
       done();
     });
   });

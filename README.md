@@ -32,14 +32,26 @@ lambda.invoke('some-lambda', { some: 'event' }, callback);
       to 5 seconds.
     - `max_idle`: The idle timeout to use in milliseconds. If a function is
       not invoked for this time, the process gets destroyed. Defaults to 1 hour.
-- `lambda.invoke(lambda_name, event[, context], callback)`: Invokes the named
-  Lambda `handle` function, passing `(event, context, callback)`. If `context`
-  is not given, it defaults to an object with these properties:
-    - `invokedFunctionArn`: The function ARN, build from the `AWS_REGION`
-      (defaulting to `us-east-1`), `STUDIO_AWS_ACCOUNT` (defaulting to `0000`)
-      and the Lambda function name.
+- `lambda.invoke(lambda_name, event[, options], callback)`: Invokes the named
+  Lambda `handle` function. These options are supported:
+    - `awsRequestId`: The AWS request ID to use in the Lambda `context`.
   If a context is given, but one of the above properties is missing, they are
   added to the context.
+
+## Lambda context
+
+Lambda function are invoked with `(event, context, callback)` where the
+`context` has this interface:
+
+- `functionName`: The name of the Lambda function.
+- `invokedFunctionArn`: The function ARN, build from the `AWS_REGION`
+  (defaulting to `us-east-1`), `STUDIO_AWS_ACCOUNT` (defaulting to `0000`) and
+  the Lambda function name.
+- `memoryLimitInMB`: The configured memory limit. This is currently not
+  enforced.
+- `awsRequestId`: The AWS request ID, either from `options` or generated.
+- `getRemainingTimeInMillis()`: Returns the remaining time until the Lambda
+  function times out.
 
 ## Debugging Lambda functions
 

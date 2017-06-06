@@ -19,8 +19,7 @@
   },
   "dependencies": {
     "@studio/log": "^1.4.0",
-    "@studio/ndjson": "^1.1.1",
-    "xtend": "^4.0.1"
+    "@studio/ndjson": "^1.1.1"
   },
   "devDependencies": {
     "@studio/changes": "^1.0.2",
