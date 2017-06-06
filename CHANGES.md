@@ -1,5 +1,14 @@
 # Changes
 
+## 1.11.0
+
+- 🍏 Add support for `functionName`.
+- 🍏 Add support for `awsRequestId`.
+- 🍏 Add support for `memoryLimitInMB`.
+- 🍏 Add support for `getRemainingTimeInMillis()`.
+- 🐛 Build the function ARN within the Lambda function instead of injecting it.
+  The `STUDIO_AWS_ACCOUNT` environment variable was not picket up correctly.
+
 ## 1.10.1
 
 - ✨ Use `@studio/ndjson` to parse log output from Lambdas
