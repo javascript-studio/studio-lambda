@@ -328,4 +328,53 @@ describe('lambda', () => {
     });
   });
 
+  it('handled dying lambda', (done) => {
+    sandbox.stub(process.stderr, 'write');
+
+    const lambda = Lambda.create();
+
+    lambda.invoke('throw', {}, (err) => {
+      assert.equal(err.message, 'Lambda throw died');
+      done();
+    });
+  });
+
+  it('runs node process with default memory', (done) => {
+    const lambda = Lambda.create({});
+
+    lambda.invoke('memory', {}, (err, value) => {
+      assert.equal(err, null);
+      assert.equal(value, 'Allocated');
+      done();
+    });
+  });
+
+  it('runs node process with memory from config file', (done) => {
+    sandbox.stub(process.stderr, 'write');
+
+    const lambda = Lambda.create({
+      env: {
+        AWS_PROFILE: 'local'
+      }
+    });
+
+    lambda.invoke('memory', {}, (err) => {
+      assert.equal(err.message, 'Lambda memory died');
+      done();
+    });
+  });
+
+  it('runs node process with memory from property', (done) => {
+    sandbox.stub(process.stderr, 'write');
+
+    const lambda = Lambda.create({
+      memory: 16
+    });
+
+    lambda.invoke('memory', {}, (err) => {
+      assert.equal(err.message, 'Lambda memory died');
+      done();
+    });
+  });
+
 });
