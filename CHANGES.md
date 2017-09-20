@@ -1,5 +1,9 @@
 # Changes
 
+## 1.12.0
+
+- 🍏 Use configured memory and improve process exit handling
+
 ## 1.11.1
 
 - 🐛 Improve generated `awsRequestId`
