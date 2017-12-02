@@ -1,5 +1,11 @@
 # Changes
 
+## 1.13.0
+
+- 🍏 Add `shutdown` and `stats` APIs
+- 🐛 Improve lambda function error handling
+- 🐛 Handle ndjson transform errors
+
 ## 1.12.0
 
 - 🍏 Use configured memory and improve process exit handling
