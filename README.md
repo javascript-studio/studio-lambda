@@ -37,6 +37,16 @@ lambda.invoke('some-lambda', { some: 'event' }, callback);
     - `awsRequestId`: The AWS request ID to use in the Lambda `context`.
   If a context is given, but one of the above properties is missing, they are
   added to the context.
+- `lambda.shutdown([options])`: Shut down all processes. These options may be
+  given:
+    - `graceful`: Wait for running instances before closing processes. If this
+      is not set to `true`, all processes are killed immediately.
+- `lambda.stats()`: Returns stats for this lambda instance. Returns an object
+  where the keys are the Lambda function names and each value is an object with
+  these properties:
+    - `instances`: The total number of instances running.
+    - `active`: The number of instances currently handling requests.
+    - `requests`: The total number of requests received.
 
 ## Lambda context
 
