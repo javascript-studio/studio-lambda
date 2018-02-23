@@ -136,9 +136,41 @@ describe('lambda', () => {
       }
     });
 
-    lambda.invoke('env', {}, (err, value) => {
+    lambda.invoke('env', { env: 'STUDIO_ENV_VAR' }, (err, value) => {
       assert.equal(err, null);
       assert.equal(value, 'Hello JavaScript Studio');
+      done();
+    });
+  });
+
+  it('passes AWS_PROFILE to lambda', (done) => {
+    lambda = Lambda.create();
+
+    lambda.invoke('env', { env: 'AWS_PROFILE' }, (err, value) => {
+      assert.equal(err, null);
+      assert.equal(value, 'Hello studio-lambda-test');
+      done();
+    });
+  });
+
+  it('defaults AWS_REGION to us-east-1', (done) => {
+    lambda = Lambda.create();
+
+    lambda.invoke('env', { env: 'AWS_REGION' }, (err, value) => {
+      assert.equal(err, null);
+      assert.equal(value, 'Hello us-east-1');
+      done();
+    });
+  });
+
+  it('passes AWS_REGION to lambda', (done) => {
+    process.env.AWS_REGION = 'eu-central-1';
+    lambda = Lambda.create();
+
+    lambda.invoke('env', { env: 'AWS_REGION' }, (err, value) => {
+      assert.equal(err, null);
+      assert.equal(value, 'Hello eu-central-1');
+      delete process.env.AWS_REGION;
       done();
     });
   });
