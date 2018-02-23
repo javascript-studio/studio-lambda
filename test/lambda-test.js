@@ -4,6 +4,7 @@
 process.env.AWS_PROFILE = 'studio-lambda-test';
 
 const assert = require('assert');
+const path = require('path');
 const sinon = require('sinon');
 const logger = require('@studio/log');
 const Lambda = require('..');
@@ -173,6 +174,127 @@ describe('lambda', () => {
       delete process.env.AWS_REGION;
       done();
     });
+  });
+
+  it('defaults AWS_DEFAULT_REGION to us-east-1', (done) => {
+    lambda = Lambda.create();
+
+    lambda.invoke('env', { env: 'AWS_DEFAULT_REGION' }, (err, value) => {
+      assert.equal(err, null);
+      assert.equal(value, 'Hello us-east-1');
+      done();
+    });
+  });
+
+  it('set AWS_DEFAULT_REGION to AWS_REGION', (done) => {
+    process.env.AWS_REGION = 'eu-central-1';
+    lambda = Lambda.create();
+
+    lambda.invoke('env', { env: 'AWS_DEFAULT_REGION' }, (err, value) => {
+      assert.equal(err, null);
+      assert.equal(value, 'Hello eu-central-1');
+      delete process.env.AWS_REGION;
+      done();
+    });
+  });
+
+  it('sets LAMBDA_TASK_ROOT to lambda source dir', (done) => {
+    lambda = Lambda.create();
+
+    lambda.invoke('env', { env: 'LAMBDA_TASK_ROOT' }, (err, value) => {
+      assert.equal(err, null);
+      assert.equal(value, `Hello ${
+        path.resolve(__dirname, 'fixture/functions/env')
+      }`);
+      done();
+    });
+  });
+
+  it('sets LAMBDA_TASK_ROOT to lambda source dir', (done) => {
+    lambda = Lambda.create();
+
+    lambda.invoke('env', { env: 'LAMBDA_TASK_ROOT' }, (err, value) => {
+      assert.equal(err, null);
+      assert.equal(value, `Hello ${
+        path.resolve(__dirname, 'fixture/functions/env')
+      }`);
+      done();
+    });
+  });
+
+  it('sets AWS_EXECUTION_ENV to AWS_Lambda_nodejs6.10', (done) => {
+    lambda = Lambda.create();
+
+    lambda.invoke('env', { env: 'AWS_EXECUTION_ENV' }, (err, value) => {
+      assert.equal(err, null);
+      assert.equal(value, 'Hello AWS_Lambda_nodejs6.10');
+      done();
+    });
+  });
+
+  it('sets AWS_LAMBDA_FUNCTION_NAME to lambda name', (done) => {
+    lambda = Lambda.create();
+
+    lambda.invoke('env', { env: 'AWS_LAMBDA_FUNCTION_NAME' }, (err, value) => {
+      assert.equal(err, null);
+      assert.equal(value, 'Hello env');
+      done();
+    });
+  });
+
+  it('sets AWS_LAMBDA_FUNCTION_MEMORY_SIZE to lambda name', (done) => {
+    lambda = Lambda.create();
+
+    lambda.invoke('env', { env: 'AWS_LAMBDA_FUNCTION_MEMORY_SIZE' },
+      (err, value) => {
+        assert.equal(err, null);
+        assert.equal(value, 'Hello 128');
+        done();
+      });
+  });
+
+  it('sets AWS_LAMBDA_FUNCTION_VERSION to 1', (done) => {
+    lambda = Lambda.create();
+
+    lambda.invoke('env', { env: 'AWS_LAMBDA_FUNCTION_VERSION' },
+      (err, value) => {
+        assert.equal(err, null);
+        assert.equal(value, 'Hello 1');
+        done();
+      });
+  });
+
+  it('sets LANG to en_US.UTF-8', (done) => {
+    lambda = Lambda.create();
+
+    lambda.invoke('env', { env: 'LANG' },
+      (err, value) => {
+        assert.equal(err, null);
+        assert.equal(value, 'Hello en_US.UTF-8');
+        done();
+      });
+  });
+
+  it('sets PATH to /usr/local/bin', (done) => {
+    lambda = Lambda.create();
+
+    lambda.invoke('env', { env: 'PATH' },
+      (err, value) => {
+        assert.equal(err, null);
+        assert.equal(value, 'Hello /usr/local/bin');
+        done();
+      });
+  });
+
+  it('sets TZ to UTC', (done) => {
+    lambda = Lambda.create();
+
+    lambda.invoke('env', { env: 'TZ' },
+      (err, value) => {
+        assert.equal(err, null);
+        assert.equal(value, 'Hello UTC');
+        done();
+      });
   });
 
   it('invokes lambda with environment variables from file', (done) => {
