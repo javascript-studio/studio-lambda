@@ -1,5 +1,12 @@
 # Changes
 
+## 1.14.0
+
+- 🍏 Implement more AWS environment variables for lambda functions
+- 🍏 Change log topic for new lambdas from "launch" to "spawn"
+- ✨ Add tests for AWS_REGION and AWS_PROFILE environment variables
+- ✨ Refactor setting `getRemainingTimeInMillis` on context
+
 ## 1.13.0
 
 - 🍏 Add `shutdown` and `stats` APIs
