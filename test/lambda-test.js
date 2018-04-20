@@ -473,9 +473,26 @@ describe('lambda', () => {
       sinon.assert.calledWith(lambda_test_log.warn, { event: { is: 42 } });
       sinon.assert.calledOnce(lambda_test_log.error);
       sinon.assert.calledWith(lambda_test_log.error, { event: { is: 42 } },
-        sinon.match.string);
+        sinon.match({ stack: sinon.match.string }));
       sinon.assert.calledOnce(lambda_test_log.wtf);
       sinon.assert.calledWithExactly(lambda_test_log.wtf);
+      done();
+    });
+  });
+
+  it('handles error log output with cause', (done) => {
+    const lambda_test_log = logger('Lambda log-error-cause Test');
+    lambda = Lambda.create();
+    sandbox.stub(lambda_test_log, 'error');
+
+    lambda.invoke('log-error-cause', {}, (err) => {
+      assert.ifError(err);
+      sinon.assert.calledOnce(lambda_test_log.error);
+      sinon.assert.calledWith(lambda_test_log.error, 'Failure',
+        sinon.match({
+          stack: sinon.match('Fail'),
+          cause: sinon.match('Cause')
+        }));
       done();
     });
   });
