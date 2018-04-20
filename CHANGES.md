@@ -1,5 +1,9 @@
 # Changes
 
+## 1.14.1
+
+- 🐛 Pass error cause in logs through to lambda logger
+
 ## 1.14.0
 
 - 🍏 Implement more AWS environment variables for lambda functions
