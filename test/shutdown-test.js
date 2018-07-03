@@ -3,7 +3,7 @@
 
 process.env.AWS_PROFILE = 'studio-lambda-test';
 
-const assert = require('assert');
+const { assert } = require('@sinonjs/referee-sinon');
 const Lambda = require('..');
 
 describe('shutdown', () => {
@@ -20,10 +20,10 @@ describe('shutdown', () => {
 
       const stats = lambda.stats();
 
-      assert.equal(typeof stats.hello, 'object');
-      assert.equal(stats.hello.instances, 0);
-      assert.equal(stats.hello.requests, 1);
-      assert.equal(stats.hello.active, 0);
+      assert.isObject(stats.hello);
+      assert.equals(stats.hello.instances, 0);
+      assert.equals(stats.hello.requests, 1);
+      assert.equals(stats.hello.active, 0);
       done();
     });
   });
@@ -31,14 +31,14 @@ describe('shutdown', () => {
   it('fails pending instance', (done) => {
     const lambda = Lambda.create();
     lambda.invoke('hello', { name: 'X' }, (err) => {
-      assert.equal(err, '{"code":"ERR_FAILED"}');
+      assert.json(err, { code: 'ERR_FAILED' });
 
       const stats = lambda.stats();
 
-      assert.equal(typeof stats.hello, 'object');
-      assert.equal(stats.hello.instances, 0);
-      assert.equal(stats.hello.requests, 1);
-      assert.equal(stats.hello.active, 0);
+      assert.isObject(stats.hello);
+      assert.equals(stats.hello.instances, 0);
+      assert.equals(stats.hello.requests, 1);
+      assert.equals(stats.hello.active, 0);
       done();
     });
 
@@ -48,14 +48,14 @@ describe('shutdown', () => {
   it('waits for pending instance if graceful options is true', (done) => {
     const lambda = Lambda.create();
     lambda.invoke('hello', { name: 'X' }, (err) => {
-      assert.equal(err, null);
+      assert.isNull(err);
 
       const stats = lambda.stats();
 
-      assert.equal(typeof stats.hello, 'object');
-      assert.equal(stats.hello.instances, 0);
-      assert.equal(stats.hello.requests, 1);
-      assert.equal(stats.hello.active, 0);
+      assert.isObject(stats.hello);
+      assert.equals(stats.hello.instances, 0);
+      assert.equals(stats.hello.requests, 1);
+      assert.equals(stats.hello.active, 0);
       done();
     });
 
@@ -67,14 +67,14 @@ describe('shutdown', () => {
       timeout: 0.1
     });
     lambda.invoke('timeout', { name: 'X' }, (err) => {
-      assert.equal(err, '{"code":"E_TIMEOUT"}');
+      assert.json(err, { code: 'E_TIMEOUT' });
 
       const stats = lambda.stats();
 
-      assert.equal(typeof stats.timeout, 'object');
-      assert.equal(stats.timeout.instances, 0);
-      assert.equal(stats.timeout.requests, 1);
-      assert.equal(stats.timeout.active, 0);
+      assert.isObject(stats.timeout);
+      assert.equals(stats.timeout.instances, 0);
+      assert.equals(stats.timeout.requests, 1);
+      assert.equals(stats.timeout.active, 0);
       done();
     });
 

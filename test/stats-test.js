@@ -3,7 +3,7 @@
 
 process.env.AWS_PROFILE = 'studio-lambda-test';
 
-const assert = require('assert');
+const { assert } = require('@sinonjs/referee-sinon');
 const Lambda = require('..');
 
 describe('stats', () => {
@@ -25,10 +25,10 @@ describe('stats', () => {
     lambda.invoke('hello', { name: 'Stats' }, () => {
       const stats = lambda.stats();
 
-      assert.equal(typeof stats.hello, 'object');
-      assert.equal(stats.hello.instances, 1);
-      assert.equal(stats.hello.requests, 1);
-      assert.equal(stats.hello.active, 0);
+      assert.isObject(stats.hello);
+      assert.equals(stats.hello.instances, 1);
+      assert.equals(stats.hello.requests, 1);
+      assert.equals(stats.hello.active, 0);
       done();
     });
   });
@@ -39,10 +39,10 @@ describe('stats', () => {
 
         const stats = lambda.stats();
 
-        assert.equal(typeof stats.hello, 'object');
-        assert.equal(stats.hello.instances, 1);
-        assert.equal(stats.hello.requests, 2);
-        assert.equal(stats.hello.active, 0);
+        assert.isObject(stats.hello);
+        assert.equals(stats.hello.instances, 1);
+        assert.equals(stats.hello.requests, 2);
+        assert.equals(stats.hello.active, 0);
         done();
       });
     });
@@ -54,10 +54,10 @@ describe('stats', () => {
       if (--count === 0) {
         const stats = lambda.stats();
 
-        assert.equal(typeof stats.hello, 'object');
-        assert.equal(stats.hello.instances, 2);
-        assert.equal(stats.hello.requests, 2);
-        assert.equal(stats.hello.active, 0);
+        assert.isObject(stats.hello);
+        assert.equals(stats.hello.instances, 2);
+        assert.equals(stats.hello.requests, 2);
+        assert.equals(stats.hello.active, 0);
         done();
       }
     };
@@ -71,10 +71,10 @@ describe('stats', () => {
 
     const stats = lambda.stats();
 
-    assert.equal(typeof stats.hello, 'object');
-    assert.equal(stats.hello.instances, 2);
-    assert.equal(stats.hello.requests, 2);
-    assert.equal(stats.hello.active, 2);
+    assert.isObject(stats.hello);
+    assert.equals(stats.hello.instances, 2);
+    assert.equals(stats.hello.requests, 2);
+    assert.equals(stats.hello.active, 2);
     done();
   });
 

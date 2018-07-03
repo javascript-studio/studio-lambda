@@ -3,16 +3,14 @@
 
 process.env.AWS_PROFILE = 'studio-lambda-test';
 
-const assert = require('assert');
 const path = require('path');
-const sinon = require('sinon');
+const { assert, sinon } = require('@sinonjs/referee-sinon');
 const logger = require('@studio/log');
 const Lambda = require('..');
 
 const log = logger('Lambda');
 
 describe('lambda', () => {
-  const sandbox = sinon.createSandbox();
   let lambda;
 
   before(() => {
@@ -20,7 +18,7 @@ describe('lambda', () => {
   });
 
   afterEach(() => {
-    sandbox.restore();
+    sinon.restore();
     lambda.shutdown();
   });
 
@@ -28,8 +26,8 @@ describe('lambda', () => {
     lambda = Lambda.create();
 
     lambda.invoke('hello', { name: 'JavaScript Studio' }, (err, value) => {
-      assert.equal(err, null);
-      assert.equal(value, 'Hello JavaScript Studio');
+      assert.isNull(err);
+      assert.equals(value, 'Hello JavaScript Studio');
       done();
     });
   });
@@ -38,25 +36,25 @@ describe('lambda', () => {
     lambda = Lambda.create();
 
     lambda.invoke('invalid-response', {}, (err) => {
-      assert.equal(err.name, 'Error');
-      assert.equal(err.message.startsWith(
+      assert.equals(err.name, 'Error');
+      assert.equals(err.message.startsWith(
         'Lambda invalid-response message parse error'), true);
       done();
     });
   });
 
   it('invokes lambda with default context', (done) => {
-    sandbox.useFakeTimers(123);
+    sinon.useFakeTimers(123);
     lambda = Lambda.create();
 
     lambda.invoke('context', {}, (err, value) => {
-      assert.equal(err, null);
-      const res = JSON.parse(value);
-      assert.equal(res.functionName, 'context');
-      assert.equal(res.memoryLimitInMB, 128);
-      assert.equal(res.awsRequestId, '000000123_context_1');
-      assert.equal(res.invokedFunctionArn,
-        'arn:aws:lambda:us-east-1:0000:function:context');
+      assert.isNull(err);
+      assert.json(value, {
+        functionName: 'context',
+        memoryLimitInMB: 128,
+        awsRequestId: '000000123_context_1',
+        invokedFunctionArn: 'arn:aws:lambda:us-east-1:0000:function:context'
+      });
       done();
     });
   });
@@ -69,10 +67,10 @@ describe('lambda', () => {
     });
 
     lambda.invoke('context', {}, (err, value) => {
-      assert.equal(err, null);
-      const res = JSON.parse(value);
-      assert.equal(res.invokedFunctionArn,
-        'arn:aws:lambda:eu-central-1:0000:function:context');
+      assert.isNull(err);
+      assert.matchJson(value, {
+        invokedFunctionArn: 'arn:aws:lambda:eu-central-1:0000:function:context'
+      });
       done();
     });
   });
@@ -85,10 +83,10 @@ describe('lambda', () => {
     });
 
     lambda.invoke('context', {}, (err, value) => {
-      assert.equal(err, null);
-      const res = JSON.parse(value);
-      assert.equal(res.invokedFunctionArn,
-        'arn:aws:lambda:us-east-1:12345678:function:context');
+      assert.isNull(err);
+      assert.matchJson(value, {
+        invokedFunctionArn: 'arn:aws:lambda:us-east-1:12345678:function:context'
+      });
       done();
     });
   });
@@ -97,11 +95,11 @@ describe('lambda', () => {
     lambda = Lambda.create();
 
     lambda.invoke('context', {}, { awsRequestId: '666' }, (err, value) => {
-      assert.equal(err, null);
-      const res = JSON.parse(value);
-      assert.equal(res.awsRequestId, '666');
-      assert.equal(res.invokedFunctionArn,
-        'arn:aws:lambda:us-east-1:0000:function:context');
+      assert.isNull(err);
+      assert.matchJson(value, {
+        awsRequestId: '666',
+        invokedFunctionArn: 'arn:aws:lambda:us-east-1:0000:function:context'
+      });
       done();
     });
   });
@@ -110,9 +108,9 @@ describe('lambda', () => {
     lambda = Lambda.create();
 
     lambda.invoke('getRemainingTimeInMillis', {}, (err, value) => {
-      assert.equal(err, null);
-      assert.equal(value > 4950, true);
-      assert.equal(value < 5000, true);
+      assert.isNull(err);
+      assert.greater(value, 4950);
+      assert.less(value, 5000);
       done();
     });
   });
@@ -123,9 +121,9 @@ describe('lambda', () => {
     });
 
     lambda.invoke('getRemainingTimeInMillis', {}, (err, value) => {
-      assert.equal(err, null);
-      assert.equal(value > 950, true);
-      assert.equal(value < 1050, true);
+      assert.isNull(err);
+      assert.greater(value, 950);
+      assert.less(value, 1050);
       done();
     });
   });
@@ -138,8 +136,8 @@ describe('lambda', () => {
     });
 
     lambda.invoke('env', { env: 'STUDIO_ENV_VAR' }, (err, value) => {
-      assert.equal(err, null);
-      assert.equal(value, 'Hello JavaScript Studio');
+      assert.isNull(err);
+      assert.equals(value, 'Hello JavaScript Studio');
       done();
     });
   });
@@ -148,8 +146,8 @@ describe('lambda', () => {
     lambda = Lambda.create();
 
     lambda.invoke('env', { env: 'AWS_PROFILE' }, (err, value) => {
-      assert.equal(err, null);
-      assert.equal(value, 'Hello studio-lambda-test');
+      assert.isNull(err);
+      assert.equals(value, 'Hello studio-lambda-test');
       done();
     });
   });
@@ -158,8 +156,8 @@ describe('lambda', () => {
     lambda = Lambda.create();
 
     lambda.invoke('env', { env: 'AWS_REGION' }, (err, value) => {
-      assert.equal(err, null);
-      assert.equal(value, 'Hello us-east-1');
+      assert.isNull(err);
+      assert.equals(value, 'Hello us-east-1');
       done();
     });
   });
@@ -169,8 +167,8 @@ describe('lambda', () => {
     lambda = Lambda.create();
 
     lambda.invoke('env', { env: 'AWS_REGION' }, (err, value) => {
-      assert.equal(err, null);
-      assert.equal(value, 'Hello eu-central-1');
+      assert.isNull(err);
+      assert.equals(value, 'Hello eu-central-1');
       delete process.env.AWS_REGION;
       done();
     });
@@ -180,8 +178,8 @@ describe('lambda', () => {
     lambda = Lambda.create();
 
     lambda.invoke('env', { env: 'AWS_DEFAULT_REGION' }, (err, value) => {
-      assert.equal(err, null);
-      assert.equal(value, 'Hello us-east-1');
+      assert.isNull(err);
+      assert.equals(value, 'Hello us-east-1');
       done();
     });
   });
@@ -191,8 +189,8 @@ describe('lambda', () => {
     lambda = Lambda.create();
 
     lambda.invoke('env', { env: 'AWS_DEFAULT_REGION' }, (err, value) => {
-      assert.equal(err, null);
-      assert.equal(value, 'Hello eu-central-1');
+      assert.isNull(err);
+      assert.equals(value, 'Hello eu-central-1');
       delete process.env.AWS_REGION;
       done();
     });
@@ -202,8 +200,8 @@ describe('lambda', () => {
     lambda = Lambda.create();
 
     lambda.invoke('env', { env: 'LAMBDA_TASK_ROOT' }, (err, value) => {
-      assert.equal(err, null);
-      assert.equal(value, `Hello ${
+      assert.isNull(err);
+      assert.equals(value, `Hello ${
         path.resolve(__dirname, 'fixture/functions/env')
       }`);
       done();
@@ -214,8 +212,8 @@ describe('lambda', () => {
     lambda = Lambda.create();
 
     lambda.invoke('env', { env: 'LAMBDA_TASK_ROOT' }, (err, value) => {
-      assert.equal(err, null);
-      assert.equal(value, `Hello ${
+      assert.isNull(err);
+      assert.equals(value, `Hello ${
         path.resolve(__dirname, 'fixture/functions/env')
       }`);
       done();
@@ -226,8 +224,8 @@ describe('lambda', () => {
     lambda = Lambda.create();
 
     lambda.invoke('env', { env: 'AWS_EXECUTION_ENV' }, (err, value) => {
-      assert.equal(err, null);
-      assert.equal(value, 'Hello AWS_Lambda_nodejs6.10');
+      assert.isNull(err);
+      assert.equals(value, 'Hello AWS_Lambda_nodejs6.10');
       done();
     });
   });
@@ -236,8 +234,8 @@ describe('lambda', () => {
     lambda = Lambda.create();
 
     lambda.invoke('env', { env: 'AWS_LAMBDA_FUNCTION_NAME' }, (err, value) => {
-      assert.equal(err, null);
-      assert.equal(value, 'Hello env');
+      assert.isNull(err);
+      assert.equals(value, 'Hello env');
       done();
     });
   });
@@ -247,8 +245,8 @@ describe('lambda', () => {
 
     lambda.invoke('env', { env: 'AWS_LAMBDA_FUNCTION_MEMORY_SIZE' },
       (err, value) => {
-        assert.equal(err, null);
-        assert.equal(value, 'Hello 128');
+        assert.isNull(err);
+        assert.equals(value, 'Hello 128');
         done();
       });
   });
@@ -258,8 +256,8 @@ describe('lambda', () => {
 
     lambda.invoke('env', { env: 'AWS_LAMBDA_FUNCTION_VERSION' },
       (err, value) => {
-        assert.equal(err, null);
-        assert.equal(value, 'Hello 1');
+        assert.isNull(err);
+        assert.equals(value, 'Hello 1');
         done();
       });
   });
@@ -269,8 +267,8 @@ describe('lambda', () => {
 
     lambda.invoke('env', { env: 'LANG' },
       (err, value) => {
-        assert.equal(err, null);
-        assert.equal(value, 'Hello en_US.UTF-8');
+        assert.isNull(err);
+        assert.equals(value, 'Hello en_US.UTF-8');
         done();
       });
   });
@@ -280,8 +278,8 @@ describe('lambda', () => {
 
     lambda.invoke('env', { env: 'PATH' },
       (err, value) => {
-        assert.equal(err, null);
-        assert.equal(value, 'Hello /usr/local/bin');
+        assert.isNull(err);
+        assert.equals(value, 'Hello /usr/local/bin');
         done();
       });
   });
@@ -291,8 +289,8 @@ describe('lambda', () => {
 
     lambda.invoke('env', { env: 'TZ' },
       (err, value) => {
-        assert.equal(err, null);
-        assert.equal(value, 'Hello UTC');
+        assert.isNull(err);
+        assert.equals(value, 'Hello UTC');
         done();
       });
   });
@@ -307,8 +305,8 @@ describe('lambda', () => {
 
     lambda.invoke('env-file', {}, (err, value) => {
       delete process.env.STUDIO_ENVIRONMENT_VARIABLE;
-      assert.equal(err, null);
-      assert.equal(value, 'Hello JavaScript Studio');
+      assert.isNull(err);
+      assert.equals(value, 'Hello JavaScript Studio');
       done();
     });
   });
@@ -321,9 +319,9 @@ describe('lambda', () => {
     });
 
     lambda.invoke('env-file', {}, (err) => {
-      assert.equal(err, JSON.stringify({
+      assert.json(err, {
         message: 'Failed to launch "env-file"'
-      }));
+      });
       done();
     });
   });
@@ -334,8 +332,8 @@ describe('lambda', () => {
     lambda = Lambda.create({});
 
     lambda.invoke('debug', {}, (err, value) => {
-      assert.equal(err, null);
-      assert.equal(value, 'Debug ON');
+      assert.isNull(err);
+      assert.equals(value, 'Debug ON');
       done();
     });
   });
@@ -344,11 +342,11 @@ describe('lambda', () => {
     lambda = Lambda.create();
 
     lambda.invoke('reuse', {}, (err, value) => {
-      assert.equal(err, null);
-      assert.equal(value, 'Count 1');
+      assert.isNull(err);
+      assert.equals(value, 'Count 1');
       lambda.invoke('reuse', {}, (err, value) => {
-        assert.equal(err, null);
-        assert.equal(value, 'Count 2');
+        assert.isNull(err);
+        assert.equals(value, 'Count 2');
         done();
       });
     });
@@ -359,15 +357,15 @@ describe('lambda', () => {
     let invokes = 0;
 
     lambda.invoke('concurrent', {}, (err, value) => {
-      assert.equal(err, null);
-      assert.equal(value, 'Count 1');
+      assert.isNull(err);
+      assert.equals(value, 'Count 1');
       if (++invokes === 2) {
         done();
       }
     });
     lambda.invoke('concurrent', {}, (err, value) => {
-      assert.equal(err, null);
-      assert.equal(value, 'Count 1');
+      assert.isNull(err);
+      assert.equals(value, 'Count 1');
       if (++invokes === 2) {
         done();
       }
@@ -380,12 +378,12 @@ describe('lambda', () => {
     });
 
     lambda.invoke('reuse', {}, (err, value) => {
-      assert.equal(err, null);
-      assert.equal(value, 'Count 1');
+      assert.isNull(err);
+      assert.equals(value, 'Count 1');
       setTimeout(() => {
         lambda.invoke('reuse', {}, (err, value) => {
-          assert.equal(err, null);
-          assert.equal(value, 'Count 1');
+          assert.isNull(err);
+          assert.equals(value, 'Count 1');
           done();
         });
       }, 201);
@@ -393,21 +391,21 @@ describe('lambda', () => {
   });
 
   it('kills lambda after default timeout', (done) => {
-    sandbox.stub(log, 'warn');
+    sinon.stub(log, 'warn');
 
     lambda = Lambda.create({
       timeout: 0.1
     });
 
     lambda.invoke('timeout', {}, (err) => {
-      assert.equal(err, '{"code":"E_TIMEOUT"}');
-      sinon.assert.calledOnce(log.warn);
+      assert.json(err, { code: 'E_TIMEOUT' });
+      assert.calledOnce(log.warn);
       done();
     });
   });
 
   it('kills lambda after configured timeout', (done) => {
-    sandbox.stub(log, 'warn');
+    sinon.stub(log, 'warn');
 
     lambda = Lambda.create({
       env: {
@@ -416,26 +414,26 @@ describe('lambda', () => {
     });
 
     lambda.invoke('timeout-file', {}, (err) => {
-      assert.equal(err, '{"code":"E_TIMEOUT"}');
-      sinon.assert.calledOnce(log.warn);
+      assert.json(err, { code: 'E_TIMEOUT' });
+      assert.calledOnce(log.warn);
       done();
     });
   });
 
   it('does not fail to talk to lambda after two where killed', (done) => {
-    sandbox.stub(log, 'warn');
+    sinon.stub(log, 'warn');
 
     lambda = Lambda.create({
       timeout: 0.1
     });
 
     lambda.invoke('timeout', {}, (err) => {
-      assert.equal(err, '{"code":"E_TIMEOUT"}');
+      assert.json(err, { code: 'E_TIMEOUT' });
     });
     lambda.invoke('timeout', {}, (err) => {
-      assert.equal(err, '{"code":"E_TIMEOUT"}');
+      assert.json(err, { code: 'E_TIMEOUT' });
       lambda.invoke('timeout', {}, (err) => {
-        assert.equal(err, '{"code":"E_TIMEOUT"}');
+        assert.json(err, { code: 'E_TIMEOUT' });
         done();
       });
     });
@@ -447,8 +445,8 @@ describe('lambda', () => {
     });
 
     lambda.invoke('hello', { name: 'works' }, (err, value) => {
-      assert.equal(err, null);
-      assert.equal(value, 'Other dir works');
+      assert.isNull(err);
+      assert.equals(value, 'Other dir works');
       done();
     });
   });
@@ -457,25 +455,21 @@ describe('lambda', () => {
     const lambda_log = logger('Lambda log');
     const lambda_test_log = logger('Lambda log Test');
     lambda = Lambda.create();
-    sandbox.stub(lambda_log, 'ignore');
-    sandbox.stub(lambda_test_log, 'ok');
-    sandbox.stub(lambda_test_log, 'warn');
-    sandbox.stub(lambda_test_log, 'error');
-    sandbox.stub(lambda_test_log, 'wtf');
+    sinon.stub(lambda_log, 'ignore');
+    sinon.stub(lambda_test_log, 'ok');
+    sinon.stub(lambda_test_log, 'warn');
+    sinon.stub(lambda_test_log, 'error');
+    sinon.stub(lambda_test_log, 'wtf');
 
     lambda.invoke('log', { is: 42 }, (err) => {
-      assert.ifError(err);
-      sinon.assert.calledOnce(lambda_log.ignore);
-      sinon.assert.calledWith(lambda_log.ignore, 'Raw log line');
-      sinon.assert.calledOnce(lambda_test_log.ok);
-      sinon.assert.calledWith(lambda_test_log.ok, 'Check');
-      sinon.assert.calledOnce(lambda_test_log.warn);
-      sinon.assert.calledWith(lambda_test_log.warn, { event: { is: 42 } });
-      sinon.assert.calledOnce(lambda_test_log.error);
-      sinon.assert.calledWith(lambda_test_log.error, { event: { is: 42 } },
+      assert.isNull(err);
+      assert.calledOnceWith(lambda_log.ignore, 'Raw log line');
+      assert.calledOnceWith(lambda_test_log.ok, 'Check');
+      assert.calledOnceWith(lambda_test_log.warn, { event: { is: 42 } });
+      assert.calledOnceWith(lambda_test_log.error, { event: { is: 42 } },
         sinon.match({ stack: sinon.match.string }));
-      sinon.assert.calledOnce(lambda_test_log.wtf);
-      sinon.assert.calledWithExactly(lambda_test_log.wtf);
+      assert.calledOnce(lambda_test_log.wtf);
+      assert.calledWithExactly(lambda_test_log.wtf);
       done();
     });
   });
@@ -483,12 +477,11 @@ describe('lambda', () => {
   it('handles error log output with cause', (done) => {
     const lambda_test_log = logger('Lambda log-error-cause Test');
     lambda = Lambda.create();
-    sandbox.stub(lambda_test_log, 'error');
+    sinon.stub(lambda_test_log, 'error');
 
     lambda.invoke('log-error-cause', {}, (err) => {
-      assert.ifError(err);
-      sinon.assert.calledOnce(lambda_test_log.error);
-      sinon.assert.calledWith(lambda_test_log.error, 'Failure',
+      assert.isNull(err);
+      assert.calledOnceWith(lambda_test_log.error, 'Failure',
         sinon.match({
           stack: sinon.match('Fail'),
           cause: sinon.match('Cause')
@@ -499,15 +492,14 @@ describe('lambda', () => {
 
   it('handles invalid log output', (done) => {
     const lambda_log = logger('Lambda invalid-log');
-    sandbox.stub(lambda_log, 'error');
+    sinon.stub(lambda_log, 'error');
 
     lambda = Lambda.create();
 
     lambda.invoke('invalid-log', {}, (err) => {
-      assert.equal(err, null);
+      assert.isNull(err);
 
-      sinon.assert.calledOnce(lambda_log.error);
-      sinon.assert.calledWith(lambda_log.error, {
+      assert.calledOnceWith(lambda_log.error, {
         line: '{"some":"incomplete json output'
       }, sinon.match.instanceOf(SyntaxError));
       done();
@@ -515,12 +507,12 @@ describe('lambda', () => {
   });
 
   it('handled dying lambda', (done) => {
-    sandbox.stub(process.stderr, 'write');
+    sinon.stub(process.stderr, 'write');
 
     lambda = Lambda.create();
 
     lambda.invoke('throw', {}, (err) => {
-      assert.equal(err, '{"code":"ERR_FAILED"}');
+      assert.json(err, { code: 'ERR_FAILED' });
       done();
     });
   });
@@ -529,14 +521,14 @@ describe('lambda', () => {
     lambda = Lambda.create({});
 
     lambda.invoke('memory', {}, (err, value) => {
-      assert.equal(err, null);
-      assert.equal(value, 'Allocated');
+      assert.isNull(err);
+      assert.equals(value, 'Allocated');
       done();
     });
   });
 
   it('runs node process with memory from config file', (done) => {
-    sandbox.stub(process.stderr, 'write');
+    sinon.stub(process.stderr, 'write');
 
     lambda = Lambda.create({
       env: {
@@ -545,20 +537,20 @@ describe('lambda', () => {
     });
 
     lambda.invoke('memory', {}, (err) => {
-      assert.equal(err, '{"code":"ERR_FAILED"}');
+      assert.json(err, { code: 'ERR_FAILED' });
       done();
     });
   });
 
   it('runs node process with memory from property', (done) => {
-    sandbox.stub(process.stderr, 'write');
+    sinon.stub(process.stderr, 'write');
 
     lambda = Lambda.create({
       memory: 16
     });
 
     lambda.invoke('memory', {}, (err) => {
-      assert.equal(err, '{"code":"ERR_FAILED"}');
+      assert.json(err, { code: 'ERR_FAILED' });
       done();
     });
   });
