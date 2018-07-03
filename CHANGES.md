@@ -1,5 +1,14 @@
 # Changes
 
+## 2.0.0
+
+- 💥 [`82e917a`](https://github.com/javascript-studio/studio-lambda/commit/82e917a83d8536e778ffa18aa461c301d5d656e5)
+  __BREAKING:__ Upgrade Studio Log to v2
+- ✨ [`e0669ea`](https://github.com/javascript-studio/studio-lambda/commit/e0669ea81256c489608fc43c6d8304a5d28293af)
+  Use Sinon + Referee and use Sinon default sandbox
+- 📚 [`8362816`](https://github.com/javascript-studio/studio-lambda/commit/83628163b14ca0cd937c8ee6ca01fb3b27c36ae0)
+  Add commit links with `--commits`
+
 ## 1.14.1
 
 - 🐛 Pass error cause in logs through to lambda logger
