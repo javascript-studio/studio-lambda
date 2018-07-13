@@ -453,7 +453,7 @@ describe('lambda', () => {
 
   it('handles log output', (done) => {
     const lambda_log = logger('Lambda log');
-    const lambda_test_log = logger('Lambda log Test');
+    const lambda_test_log = logger('Test');
     lambda = Lambda.create();
     sinon.stub(lambda_log, 'ignore');
     sinon.stub(lambda_test_log, 'ok');
@@ -475,7 +475,7 @@ describe('lambda', () => {
   });
 
   it('handles error log output with cause', (done) => {
-    const lambda_test_log = logger('Lambda log-error-cause Test');
+    const lambda_test_log = logger('Test');
     lambda = Lambda.create();
     sinon.stub(lambda_test_log, 'error');
 
