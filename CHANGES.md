@@ -1,5 +1,10 @@
 # Changes
 
+## 2.0.1
+
+- 🐛 [`7082da3`](https://github.com/javascript-studio/studio-lambda/commit/7082da34f64146db43402d40835bfb2ffbb934f7)
+  Do not prepend forwarded log namespace with name
+
 ## 2.0.0
 
 - 💥 [`82e917a`](https://github.com/javascript-studio/studio-lambda/commit/82e917a83d8536e778ffa18aa461c301d5d656e5)
