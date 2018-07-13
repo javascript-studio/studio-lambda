@@ -1,5 +1,12 @@
 # Changes
 
+## 2.0.2
+
+- 🐛 [`6a70c3c`](https://github.com/javascript-studio/studio-lambda/commit/6a70c3cae4640e68d6dd62196aeac5bfaaf62737)
+  Revert "Do not prepend forwarded log namespace with name"
+
+    > This reverts commit 7082da34f64146db43402d40835bfb2ffbb934f7.
+
 ## 2.0.1
 
 - 🐛 [`7082da3`](https://github.com/javascript-studio/studio-lambda/commit/7082da34f64146db43402d40835bfb2ffbb934f7)
