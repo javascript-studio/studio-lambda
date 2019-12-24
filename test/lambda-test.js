@@ -3,6 +3,7 @@
 
 process.env.AWS_PROFILE = 'studio-lambda-test';
 
+const fs = require('fs');
 const path = require('path');
 const { assert, sinon } = require('@sinonjs/referee-sinon');
 const logger = require('@studio/log');
@@ -527,32 +528,48 @@ describe('lambda', () => {
     });
   });
 
-  it('runs node process with memory from config file', (done) => {
-    sinon.stub(process.stderr, 'write');
+  context('with memory limit', () => {
 
-    lambda = Lambda.create({
-      env: {
-        AWS_PROFILE: 'local'
-      }
+    after(() => {
+      // Remove the node memory report.
+      const dir = `${__dirname}/fixture/functions/memory`;
+      // eslint-disable-next-line no-sync
+      fs.readdirSync(dir)
+        .filter((file) => file.startsWith('report.'))
+        .forEach((file) => {
+          // eslint-disable-next-line no-sync
+          fs.unlinkSync(`${dir}/${file}`);
+        });
     });
 
-    lambda.invoke('memory', {}, (err) => {
-      assert.json(err, { code: 'ERR_FAILED' });
-      done();
-    });
-  });
+    it('runs node process with memory from config file', (done) => {
+      sinon.stub(process.stderr, 'write');
 
-  it('runs node process with memory from property', (done) => {
-    sinon.stub(process.stderr, 'write');
+      lambda = Lambda.create({
+        env: {
+          AWS_PROFILE: 'local'
+        }
+      });
 
-    lambda = Lambda.create({
-      memory: 16
+      lambda.invoke('memory', {}, (err) => {
+        assert.json(err, { code: 'ERR_FAILED' });
+        done();
+      });
     });
 
-    lambda.invoke('memory', {}, (err) => {
-      assert.json(err, { code: 'ERR_FAILED' });
-      done();
+    it('runs node process with memory from property', (done) => {
+      sinon.stub(process.stderr, 'write');
+
+      lambda = Lambda.create({
+        memory: 8
+      });
+
+      lambda.invoke('memory', {}, (err) => {
+        assert.json(err, { code: 'ERR_FAILED' });
+        done();
+      });
     });
+
   });
 
 });
