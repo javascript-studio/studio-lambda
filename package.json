@@ -23,7 +23,7 @@
     "@studio/ndjson": "^2.0.0"
   },
   "devDependencies": {
-    "@sinonjs/referee-sinon": "^4.1.0",
+    "@sinonjs/referee-sinon": "^6.0.0",
     "@studio/changes": "^2.0.0",
     "@studio/eslint-config": "^1.0.2",
     "eslint": "^5.0.1",
