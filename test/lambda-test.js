@@ -32,6 +32,20 @@ describe('lambda', () => {
     });
   });
 
+  it('invokes async lambda', (done) => {
+    lambda = Lambda.create();
+
+    lambda.invoke(
+      'hello-async',
+      { name: 'JavaScript Studio' },
+      (err, value) => {
+        assert.isNull(err);
+        assert.equals(value, 'Hello JavaScript Studio');
+        done();
+      }
+    );
+  });
+
   it('handles invalid response', (done) => {
     lambda = Lambda.create();
 
@@ -513,12 +527,23 @@ describe('lambda', () => {
     });
   });
 
-  it('handled dying lambda', (done) => {
+  it('handles throwing lambda', (done) => {
     sinon.stub(process.stderr, 'write');
 
     lambda = Lambda.create();
 
     lambda.invoke('throw', {}, (err) => {
+      assert.json(err, { code: 'ERR_FAILED' });
+      done();
+    });
+  });
+
+  it('handles throwing async lambda', (done) => {
+    sinon.stub(process.stderr, 'write');
+
+    lambda = Lambda.create();
+
+    lambda.invoke('throw-async', {}, (err) => {
       assert.json(err, { code: 'ERR_FAILED' });
       done();
     });
