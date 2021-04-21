@@ -25,8 +25,10 @@
   "devDependencies": {
     "@sinonjs/referee-sinon": "^6.0.0",
     "@studio/changes": "^2.0.0",
-    "@studio/eslint-config": "^1.0.2",
-    "eslint": "^5.0.1",
+    "@studio/eslint-config": "^2.0.0",
+    "eslint": "^7.24.0",
+    "eslint-plugin-mocha": "^8.1.0",
+    "eslint-plugin-node": "^11.1.0",
     "mocha": "^5.2.0"
   }
 }

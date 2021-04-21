@@ -1,4 +1,3 @@
-/*eslint-env mocha*/
 'use strict';
 
 process.env.AWS_PROFILE = 'studio-lambda-test';
