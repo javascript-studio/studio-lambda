@@ -6,7 +6,6 @@ const { assert } = require('@sinonjs/referee-sinon');
 const Lambda = require('..');
 
 describe('shutdown', () => {
-
   before(() => {
     process.chdir(`${__dirname}/fixture`);
   });
@@ -14,7 +13,6 @@ describe('shutdown', () => {
   it('removes any running instance', (done) => {
     const lambda = Lambda.create();
     lambda.invoke('hello', { name: 'X' }, () => {
-
       lambda.shutdown();
 
       const stats = lambda.stats();
@@ -79,5 +77,4 @@ describe('shutdown', () => {
 
     lambda.shutdown({ graceful: true });
   });
-
 });

@@ -35,7 +35,6 @@ describe('stats', () => {
   it('counts sequential requests', (done) => {
     lambda.invoke('hello', { name: 'A' }, () => {
       lambda.invoke('hello', { name: 'B' }, () => {
-
         const stats = lambda.stats();
 
         assert.isObject(stats.hello);
@@ -76,5 +75,4 @@ describe('stats', () => {
     assert.equals(stats.hello.active, 2);
     done();
   });
-
 });

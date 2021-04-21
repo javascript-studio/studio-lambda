@@ -37,8 +37,10 @@ describe('lambda', () => {
 
     lambda.invoke('invalid-response', {}, (err) => {
       assert.equals(err.name, 'Error');
-      assert.equals(err.message.startsWith(
-        'Lambda invalid-response message parse error'), true);
+      assert.equals(
+        err.message.startsWith('Lambda invalid-response message parse error'),
+        true
+      );
       done();
     });
   });
@@ -201,9 +203,10 @@ describe('lambda', () => {
 
     lambda.invoke('env', { env: 'LAMBDA_TASK_ROOT' }, (err, value) => {
       assert.isNull(err);
-      assert.equals(value, `Hello ${
-        path.resolve(__dirname, 'fixture/functions/env')
-      }`);
+      assert.equals(
+        value,
+        `Hello ${path.resolve(__dirname, 'fixture/functions/env')}`
+      );
       done();
     });
   });
@@ -231,56 +234,59 @@ describe('lambda', () => {
   it('sets AWS_LAMBDA_FUNCTION_MEMORY_SIZE to lambda name', (done) => {
     lambda = Lambda.create();
 
-    lambda.invoke('env', { env: 'AWS_LAMBDA_FUNCTION_MEMORY_SIZE' },
+    lambda.invoke(
+      'env',
+      { env: 'AWS_LAMBDA_FUNCTION_MEMORY_SIZE' },
       (err, value) => {
         assert.isNull(err);
         assert.equals(value, 'Hello 128');
         done();
-      });
+      }
+    );
   });
 
   it('sets AWS_LAMBDA_FUNCTION_VERSION to 1', (done) => {
     lambda = Lambda.create();
 
-    lambda.invoke('env', { env: 'AWS_LAMBDA_FUNCTION_VERSION' },
+    lambda.invoke(
+      'env',
+      { env: 'AWS_LAMBDA_FUNCTION_VERSION' },
       (err, value) => {
         assert.isNull(err);
         assert.equals(value, 'Hello 1');
         done();
-      });
+      }
+    );
   });
 
   it('sets LANG to en_US.UTF-8', (done) => {
     lambda = Lambda.create();
 
-    lambda.invoke('env', { env: 'LANG' },
-      (err, value) => {
-        assert.isNull(err);
-        assert.equals(value, 'Hello en_US.UTF-8');
-        done();
-      });
+    lambda.invoke('env', { env: 'LANG' }, (err, value) => {
+      assert.isNull(err);
+      assert.equals(value, 'Hello en_US.UTF-8');
+      done();
+    });
   });
 
   it('sets PATH to /usr/local/bin', (done) => {
     lambda = Lambda.create();
 
-    lambda.invoke('env', { env: 'PATH' },
-      (err, value) => {
-        assert.isNull(err);
-        assert.equals(value, 'Hello /usr/local/bin');
-        done();
-      });
+    lambda.invoke('env', { env: 'PATH' }, (err, value) => {
+      assert.isNull(err);
+      assert.equals(value, 'Hello /usr/local/bin');
+      done();
+    });
   });
 
   it('sets TZ to UTC', (done) => {
     lambda = Lambda.create();
 
-    lambda.invoke('env', { env: 'TZ' },
-      (err, value) => {
-        assert.isNull(err);
-        assert.equals(value, 'Hello UTC');
-        done();
-      });
+    lambda.invoke('env', { env: 'TZ' }, (err, value) => {
+      assert.isNull(err);
+      assert.equals(value, 'Hello UTC');
+      done();
+    });
   });
 
   it('invokes lambda with environment variables from file', (done) => {
@@ -457,8 +463,11 @@ describe('lambda', () => {
       assert.calledOnceWith(lambda_log.ignore, 'Raw log line');
       assert.calledOnceWith(lambda_test_log.ok, 'Check');
       assert.calledOnceWith(lambda_test_log.warn, { event: { is: 42 } });
-      assert.calledOnceWith(lambda_test_log.error, { event: { is: 42 } },
-        sinon.match({ stack: sinon.match.string }));
+      assert.calledOnceWith(
+        lambda_test_log.error,
+        { event: { is: 42 } },
+        sinon.match({ stack: sinon.match.string })
+      );
       assert.calledOnce(lambda_test_log.wtf);
       assert.calledWithExactly(lambda_test_log.wtf);
       done();
@@ -472,11 +481,14 @@ describe('lambda', () => {
 
     lambda.invoke('log-error-cause', {}, (err) => {
       assert.isNull(err);
-      assert.calledOnceWith(lambda_test_log.error, 'Failure',
+      assert.calledOnceWith(
+        lambda_test_log.error,
+        'Failure',
         sinon.match({
           stack: sinon.match('Fail'),
           cause: sinon.match('Cause')
-        }));
+        })
+      );
       done();
     });
   });
@@ -490,9 +502,13 @@ describe('lambda', () => {
     lambda.invoke('invalid-log', {}, (err) => {
       assert.isNull(err);
 
-      assert.calledOnceWith(lambda_log.error, {
-        line: '{"some":"incomplete json output'
-      }, sinon.match.instanceOf(SyntaxError));
+      assert.calledOnceWith(
+        lambda_log.error,
+        {
+          line: '{"some":"incomplete json output'
+        },
+        sinon.match.instanceOf(SyntaxError)
+      );
       done();
     });
   });
@@ -519,7 +535,6 @@ describe('lambda', () => {
   });
 
   context('with memory limit', () => {
-
     after(() => {
       // Remove the node memory report.
       const dir = `${__dirname}/fixture/functions/memory`;
@@ -559,7 +574,5 @@ describe('lambda', () => {
         done();
       });
     });
-
   });
-
 });

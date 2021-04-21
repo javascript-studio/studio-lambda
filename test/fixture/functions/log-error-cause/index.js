@@ -3,9 +3,7 @@
 const logger = require('@studio/log');
 const Stringify = require('@studio/ndjson/stringify');
 
-logger
-  .pipe(new Stringify())
-  .pipe(process.stdout);
+logger.pipe(new Stringify()).pipe(process.stdout);
 
 const log = logger('Test');
 
