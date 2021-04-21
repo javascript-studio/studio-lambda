@@ -4,7 +4,7 @@ process.env.AWS_PROFILE = 'studio-lambda-test';
 
 const fs = require('fs');
 const path = require('path');
-const { assert, sinon } = require('@sinonjs/referee-sinon');
+const { assert, match, sinon } = require('@sinonjs/referee-sinon');
 const logger = require('@studio/log');
 const Lambda = require('..');
 
@@ -46,17 +46,38 @@ describe('lambda', () => {
     );
   });
 
+  it('resolves promise if no callback is given', async () => {
+    lambda = Lambda.create();
+
+    const promise = lambda.invoke('hello-async', {
+      name: 'JavaScript Studio'
+    });
+
+    await assert.resolves(promise, 'Hello JavaScript Studio');
+  });
+
+  function hasExpectedErrorMessage(err) {
+    return err.message.startsWith(
+      'Lambda invalid-response message parse error'
+    );
+  }
+
   it('handles invalid response', (done) => {
     lambda = Lambda.create();
 
     lambda.invoke('invalid-response', {}, (err) => {
       assert.equals(err.name, 'Error');
-      assert.equals(
-        err.message.startsWith('Lambda invalid-response message parse error'),
-        true
-      );
+      assert.isTrue(hasExpectedErrorMessage(err));
       done();
     });
+  });
+
+  it('rejects promise if no callback is given', async () => {
+    lambda = Lambda.create();
+
+    const promise = lambda.invoke('invalid-response');
+
+    await assert.rejects(promise, match(hasExpectedErrorMessage));
   });
 
   it('invokes lambda with default context', (done) => {
@@ -480,7 +501,7 @@ describe('lambda', () => {
       assert.calledOnceWith(
         lambda_test_log.error,
         { event: { is: 42 } },
-        sinon.match({ stack: sinon.match.string })
+        match({ stack: match.string })
       );
       assert.calledOnce(lambda_test_log.wtf);
       assert.calledWithExactly(lambda_test_log.wtf);
@@ -498,9 +519,9 @@ describe('lambda', () => {
       assert.calledOnceWith(
         lambda_test_log.error,
         'Failure',
-        sinon.match({
-          stack: sinon.match('Fail'),
-          cause: sinon.match('Cause')
+        match({
+          stack: match('Fail'),
+          cause: match('Cause')
         })
       );
       done();
@@ -521,7 +542,7 @@ describe('lambda', () => {
         {
           line: '{"some":"incomplete json output'
         },
-        sinon.match.instanceOf(SyntaxError)
+        match.instanceOf(SyntaxError)
       );
       done();
     });
