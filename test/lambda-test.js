@@ -1,4 +1,3 @@
-/*eslint-env mocha*/
 'use strict';
 
 process.env.AWS_PROFILE = 'studio-lambda-test';
@@ -209,18 +208,6 @@ describe('lambda', () => {
     });
   });
 
-  it('sets LAMBDA_TASK_ROOT to lambda source dir', (done) => {
-    lambda = Lambda.create();
-
-    lambda.invoke('env', { env: 'LAMBDA_TASK_ROOT' }, (err, value) => {
-      assert.isNull(err);
-      assert.equals(value, `Hello ${
-        path.resolve(__dirname, 'fixture/functions/env')
-      }`);
-      done();
-    });
-  });
-
   it('sets AWS_EXECUTION_ENV to AWS_Lambda_nodejs6.10', (done) => {
     lambda = Lambda.create();
 
@@ -345,6 +332,7 @@ describe('lambda', () => {
     lambda.invoke('reuse', {}, (err, value) => {
       assert.isNull(err);
       assert.equals(value, 'Count 1');
+      // eslint-disable-next-line no-shadow
       lambda.invoke('reuse', {}, (err, value) => {
         assert.isNull(err);
         assert.equals(value, 'Count 2');
@@ -382,6 +370,7 @@ describe('lambda', () => {
       assert.isNull(err);
       assert.equals(value, 'Count 1');
       setTimeout(() => {
+        // eslint-disable-next-line no-shadow
         lambda.invoke('reuse', {}, (err, value) => {
           assert.isNull(err);
           assert.equals(value, 'Count 1');
@@ -433,6 +422,7 @@ describe('lambda', () => {
     });
     lambda.invoke('timeout', {}, (err) => {
       assert.json(err, { code: 'E_TIMEOUT' });
+      // eslint-disable-next-line no-shadow
       lambda.invoke('timeout', {}, (err) => {
         assert.json(err, { code: 'E_TIMEOUT' });
         done();
@@ -533,11 +523,11 @@ describe('lambda', () => {
     after(() => {
       // Remove the node memory report.
       const dir = `${__dirname}/fixture/functions/memory`;
-      // eslint-disable-next-line no-sync
+      // eslint-disable-next-line node/no-sync
       fs.readdirSync(dir)
         .filter((file) => file.startsWith('report.'))
         .forEach((file) => {
-          // eslint-disable-next-line no-sync
+          // eslint-disable-next-line node/no-sync
           fs.unlinkSync(`${dir}/${file}`);
         });
     });
