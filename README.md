@@ -32,8 +32,9 @@ lambda.invoke('some-lambda', { some: 'event' }, callback);
     to 5 seconds.
   - `max_idle`: The idle timeout to use in milliseconds. If a function is
     not invoked for this time, the process gets destroyed. Defaults to 1 hour.
-- `lambda.invoke(lambda_name, event[, options], callback)`: Invokes the named
-  Lambda `handle` function. These options are supported:
+- `lambda.invoke(lambda_name, event[, options][, callback])`: Invokes the named
+  Lambda `handle` function. If no callback is given, a promise is returned.
+  These options are supported:
   - `awsRequestId`: The AWS request ID to use in the Lambda `context`.
     If a context is given, but one of the above properties is missing, they are
     added to the context.
@@ -50,7 +51,7 @@ lambda.invoke('some-lambda', { some: 'event' }, callback);
 
 ## Lambda context
 
-Lambda function are invoked with `(event, context, callback)` where the
+Lambda function are invoked with `(event, context[, callback])` where the
 `context` has this interface:
 
 - `functionName`: The name of the Lambda function.
@@ -62,6 +63,8 @@ Lambda function are invoked with `(event, context, callback)` where the
 - `awsRequestId`: The AWS request ID, either from `options` or generated.
 - `getRemainingTimeInMillis()`: Returns the remaining time until the Lambda
   function times out.
+
+If `callback` is not defined (the lambda handler function has an arity < 3), the function is expected to return a promise.
 
 ## Debugging Lambda functions
 
