@@ -1,5 +1,48 @@
 # Changes
 
+## 3.0.0
+
+- 💥 [`b5a53ad`](https://github.com/javascript-studio/studio-lambda/commit/b5a53ad96c6e915d35015923c5055895c84d7352)
+  Require node 12
+- 🍏 [`21b2d2c`](https://github.com/javascript-studio/studio-lambda/commit/21b2d2c4b5b6551935335f7df5d2c36e9306add7)
+  Return promise in lambda.invoke if no callback is given
+- 🍏 [`c37577a`](https://github.com/javascript-studio/studio-lambda/commit/c37577a4beee285f3c6543d30b8b8fa323a0069b)
+  Support async lambda functions
+- 📚 [`4de3f74`](https://github.com/javascript-studio/studio-lambda/commit/4de3f74669cf682d0bb962e25416b0d4d1611535)
+  Document usage with async await
+- 🐛 [`2111a8f`](https://github.com/javascript-studio/studio-lambda/commit/2111a8f14f153c703ba2ce8989e56b08c7c4f07d)
+  Fix error handling if lambda throws while launching
+- ✨ [`957d2e6`](https://github.com/javascript-studio/studio-lambda/commit/957d2e6f7b78fee49db17405cebaf320d049ed71)
+  Avoid else by returning early
+- ✨ [`e6879f2`](https://github.com/javascript-studio/studio-lambda/commit/e6879f2575c639d9b3feb1915062a73e1c935169)
+  Configure GitHub actions
+- ✨ [`64de260`](https://github.com/javascript-studio/studio-lambda/commit/64de2605cc4875bd1a66cb067a2f066e6ae8977c)
+  Run lint, test and prettier checks separately
+- ✨ [`b9db826`](https://github.com/javascript-studio/studio-lambda/commit/b9db8264ebc97c92e21b55489e6015fe90394d6d)
+  Update Studio Changes
+- ✨ [`0af1d4e`](https://github.com/javascript-studio/studio-lambda/commit/0af1d4e3005cfe863af46b770cfc9d7502738238)
+  Upgrade referee-sinon to latest
+- ✨ [`f2000dd`](https://github.com/javascript-studio/studio-lambda/commit/f2000dd28b2ca00a987c1404034ad5b687b02ad0)
+  Upgrade mocha to latest
+- ✨ [`c466a9d`](https://github.com/javascript-studio/studio-lambda/commit/c466a9de0e8954498fe9ef537450db0b891e222e)
+  Setup prettier
+- ✨ [`e0469bb`](https://github.com/javascript-studio/studio-lambda/commit/e0469bb7d7514d208d67a5de9c1729f71c8cb92b)
+  Upgrade eslint and eslint-config
+- ✨ [`94c71c6`](https://github.com/javascript-studio/studio-lambda/commit/94c71c6ce1338604b61312731dddc06036317de5)
+  Use npm 7
+- ✨ [`b121728`](https://github.com/javascript-studio/studio-lambda/commit/b121728669ce120cb737ea750e1a739170ceac70)
+  Add .gitignore
+- ✨ [`883ba54`](https://github.com/javascript-studio/studio-lambda/commit/883ba544640776b0d24d6adafc1fe449dfe2d56e)
+  Fix memory limit tests for node 12
+- ✨ [`0914a38`](https://github.com/javascript-studio/studio-lambda/commit/0914a384b6afcfc3c92e977ee3779347cc6e15ab)
+  Upgrade referee-sinon to v6
+- ✨ [`eb41ede`](https://github.com/javascript-studio/studio-lambda/commit/eb41ede3c2e0abae743d7412c455212b03ccc8b7)
+  Upgrade Studio Changes to v2
+- ✨ [`570c069`](https://github.com/javascript-studio/studio-lambda/commit/570c069af8cddb1cb65d6ec345b3f17ba9d21384)
+  Make eslint-config a dev dependency
+
+_Released by [Maximilian Antoni](https://github.com/mantoni) on 2021-04-21._
+
 ## 2.0.2
 
 - 🐛 [`6a70c3c`](https://github.com/javascript-studio/studio-lambda/commit/6a70c3cae4640e68d6dd62196aeac5bfaaf62737)
