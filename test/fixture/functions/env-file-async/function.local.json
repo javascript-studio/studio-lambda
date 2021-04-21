@@ -1,0 +1,6 @@
+{
+  "environment": {
+    "STUDIO_ENV_VAR": "Hello",
+    "STUDIO_ENV_TPL": "${STUDIO_ENVIRONMENT_VARIABLE}"
+  }
+}

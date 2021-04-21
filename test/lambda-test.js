@@ -355,6 +355,23 @@ describe('lambda', () => {
     });
   });
 
+  it('fails to launch async lambda if environment variable is missing', async () => {
+    lambda = Lambda.create({
+      env: {
+        AWS_PROFILE: 'local'
+      }
+    });
+
+    const promise = lambda.invoke('env-file-async');
+
+    await assert.rejects(
+      promise,
+      match.json({
+        message: 'Failed to launch "env-file-async"'
+      })
+    );
+  });
+
   it('invokes lambda with DEBUG environment variables', (done) => {
     process.env.DEBUG = 'ON';
 
