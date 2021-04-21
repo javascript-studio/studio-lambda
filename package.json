@@ -9,11 +9,14 @@
     "lint": "eslint .",
     "test": "mocha --slow=500",
     "watch": "npm run test -- --watch",
+    "postlint": "npm run prettier:check",
     "posttest": "npm run lint",
     "start": "node .",
     "preversion": "npm test",
     "version": "changes --commits --footer",
-    "postversion": "git push --follow-tags && npm publish"
+    "postversion": "git push --follow-tags && npm publish",
+    "prettier:check": "prettier --check '**/*.{js,json,md}'",
+    "prettier:write": "prettier --write '**/*.{js,json,md}'"
   },
   "eslintConfig": {
     "extends": "@studio"
@@ -29,6 +32,7 @@
     "eslint": "^7.24.0",
     "eslint-plugin-mocha": "^8.1.0",
     "eslint-plugin-node": "^11.1.0",
-    "mocha": "^5.2.0"
+    "mocha": "^5.2.0",
+    "prettier": "^2.2.1"
   }
 }

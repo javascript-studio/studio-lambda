@@ -17,36 +17,36 @@ lambda.invoke('some-lambda', { some: 'event' }, callback);
 
 - `lambda = Lambda.create([options])`: Returns a new Lambda controller for
   the given options.
-    - `base_dir`: The base directory to use. Defaults to the current working
-      directory.
-    - `lambda_path`: The path to the Lambda function. Replaces `${LAMBDA_NAME}`
-      with the Lambda name. Defaults to `functions/${LAMBDA_NAME}/`.
-    - `env`: An object with environment variables to use. Defaults to an empty
-      object.
-    - `config_file`: A JSON file with additional `environment` and `timeout`
-      properties. Defaults to
-      `functions/${LAMBDA_NAME}/function.${AWS_PROFILE}.json`. Placeholders in
-      the form of `${ENV_VAR}` are replaced with the corresponding environment
-      variable.
-    - `timeout`: The default Lambda timeout to use in milliseconds. Defaults
-      to 5 seconds.
-    - `max_idle`: The idle timeout to use in milliseconds. If a function is
-      not invoked for this time, the process gets destroyed. Defaults to 1 hour.
+  - `base_dir`: The base directory to use. Defaults to the current working
+    directory.
+  - `lambda_path`: The path to the Lambda function. Replaces `${LAMBDA_NAME}`
+    with the Lambda name. Defaults to `functions/${LAMBDA_NAME}/`.
+  - `env`: An object with environment variables to use. Defaults to an empty
+    object.
+  - `config_file`: A JSON file with additional `environment` and `timeout`
+    properties. Defaults to
+    `functions/${LAMBDA_NAME}/function.${AWS_PROFILE}.json`. Placeholders in
+    the form of `${ENV_VAR}` are replaced with the corresponding environment
+    variable.
+  - `timeout`: The default Lambda timeout to use in milliseconds. Defaults
+    to 5 seconds.
+  - `max_idle`: The idle timeout to use in milliseconds. If a function is
+    not invoked for this time, the process gets destroyed. Defaults to 1 hour.
 - `lambda.invoke(lambda_name, event[, options], callback)`: Invokes the named
   Lambda `handle` function. These options are supported:
-    - `awsRequestId`: The AWS request ID to use in the Lambda `context`.
-  If a context is given, but one of the above properties is missing, they are
-  added to the context.
+  - `awsRequestId`: The AWS request ID to use in the Lambda `context`.
+    If a context is given, but one of the above properties is missing, they are
+    added to the context.
 - `lambda.shutdown([options])`: Shut down all processes. These options may be
   given:
-    - `graceful`: Wait for running instances before closing processes. If this
-      is not set to `true`, all processes are killed immediately.
+  - `graceful`: Wait for running instances before closing processes. If this
+    is not set to `true`, all processes are killed immediately.
 - `lambda.stats()`: Returns stats for this lambda instance. Returns an object
   where the keys are the Lambda function names and each value is an object with
   these properties:
-    - `instances`: The total number of instances running.
-    - `active`: The number of instances currently handling requests.
-    - `requests`: The total number of requests received.
+  - `instances`: The total number of instances running.
+  - `active`: The number of instances currently handling requests.
+  - `requests`: The total number of requests received.
 
 ## Lambda context
 
