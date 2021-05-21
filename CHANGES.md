@@ -1,5 +1,16 @@
 # Changes
 
+## 3.0.1
+
+- 🐛 [`e1be0d4`](https://github.com/javascript-studio/studio-lambda/commit/e1be0d43cc69645cd7f9a10b7a51d3358af96b28)
+  Handler `JSON.stringify` error in lambda response
+- ✨ [`526574b`](https://github.com/javascript-studio/studio-lambda/commit/526574b5dbf616747079a012f5075384b25d92ab)
+  Upgrade @sinonjs/referee-sinon to latest (Morgan Roderick)
+- ✨ [`2f25018`](https://github.com/javascript-studio/studio-lambda/commit/2f25018dec371373b33c8245549135cb3c79aeb9)
+  Set required node version in package-lock.json (Morgan Roderick)
+
+_Released by [Maximilian Antoni](https://github.com/mantoni) on 2021-05-21._
+
 ## 3.0.0
 
 - 💥 [`b5a53ad`](https://github.com/javascript-studio/studio-lambda/commit/b5a53ad96c6e915d35015923c5055895c84d7352)
