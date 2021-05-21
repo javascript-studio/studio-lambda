@@ -80,6 +80,17 @@ describe('lambda', () => {
     await assert.rejects(promise, match(hasExpectedErrorMessage));
   });
 
+  it('handles invalid JSON', (done) => {
+    lambda = Lambda.create();
+
+    lambda.invoke('invalid-json', {}, (err) => {
+      assert.equals(err.name, 'Error');
+      assert.equals(err.message, 'Ouch!');
+      assert.match(err.stack, 'Error: Ouch!\n    at ');
+      done();
+    });
+  });
+
   it('invokes lambda with default context', (done) => {
     sinon.useFakeTimers(123);
     lambda = Lambda.create();
