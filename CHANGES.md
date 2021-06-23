@@ -1,5 +1,12 @@
 # Changes
 
+## 3.0.2
+
+- 🐛 [`5b7e59e`](https://github.com/javascript-studio/studio-lambda/commit/5b7e59e36d5b041b729ebc41e1b6edf40ad3d390)
+  Fix region and account config via env
+
+_Released by [Maximilian Antoni](https://github.com/mantoni) on 2021-06-23._
+
 ## 3.0.1
 
 - 🐛 [`e1be0d4`](https://github.com/javascript-studio/studio-lambda/commit/e1be0d43cc69645cd7f9a10b7a51d3358af96b28)

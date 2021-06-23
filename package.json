@@ -1,6 +1,6 @@
 {
   "name": "@studio/lambda",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "JavaScript Studio lambda execution environment",
   "author": "Maximilian Antoni <max@javascript.studio>",
   "homepage": "https://github.com/javascript-studio/studio-lambda",
