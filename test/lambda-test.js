@@ -20,6 +20,8 @@ describe('lambda', () => {
   afterEach(() => {
     sinon.restore();
     lambda.shutdown();
+    delete process.env.AWS_REGION;
+    delete process.env.STUDIO_AWS_ACCOUNT;
   });
 
   it('invokes lambda with event', (done) => {
@@ -101,34 +103,30 @@ describe('lambda', () => {
         functionName: 'context',
         memoryLimitInMB: 128,
         awsRequestId: '000000123_context_1',
-        invokedFunctionArn: 'arn:aws:lambda:us-east-1:0000:function:context'
+        invokedFunctionArn:
+          'arn:aws:lambda:us-east-1:000000000000:function:context'
       });
       done();
     });
   });
 
   it('uses AWS_REGION environment variable in function ARN', (done) => {
-    lambda = Lambda.create({
-      env: {
-        AWS_REGION: 'eu-central-1'
-      }
-    });
+    process.env.AWS_REGION = 'eu-central-1';
+    lambda = Lambda.create();
 
     lambda.invoke('context', {}, (err, value) => {
       assert.isNull(err);
       assert.matchJson(value, {
-        invokedFunctionArn: 'arn:aws:lambda:eu-central-1:0000:function:context'
+        invokedFunctionArn:
+          'arn:aws:lambda:eu-central-1:000000000000:function:context'
       });
       done();
     });
   });
 
   it('uses STUDIO_AWS_ACCOUNT environment variable in function ARN', (done) => {
-    lambda = Lambda.create({
-      env: {
-        STUDIO_AWS_ACCOUNT: '12345678'
-      }
-    });
+    process.env.STUDIO_AWS_ACCOUNT = '12345678';
+    lambda = Lambda.create();
 
     lambda.invoke('context', {}, (err, value) => {
       assert.isNull(err);
@@ -146,7 +144,8 @@ describe('lambda', () => {
       assert.isNull(err);
       assert.matchJson(value, {
         awsRequestId: '666',
-        invokedFunctionArn: 'arn:aws:lambda:us-east-1:0000:function:context'
+        invokedFunctionArn:
+          'arn:aws:lambda:us-east-1:000000000000:function:context'
       });
       done();
     });
@@ -217,7 +216,6 @@ describe('lambda', () => {
     lambda.invoke('env', { env: 'AWS_REGION' }, (err, value) => {
       assert.isNull(err);
       assert.equals(value, 'Hello eu-central-1');
-      delete process.env.AWS_REGION;
       done();
     });
   });
@@ -239,7 +237,6 @@ describe('lambda', () => {
     lambda.invoke('env', { env: 'AWS_DEFAULT_REGION' }, (err, value) => {
       assert.isNull(err);
       assert.equals(value, 'Hello eu-central-1');
-      delete process.env.AWS_REGION;
       done();
     });
   });

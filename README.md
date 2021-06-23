@@ -56,8 +56,8 @@ Lambda function are invoked with `(event, context[, callback])` where the
 
 - `functionName`: The name of the Lambda function.
 - `invokedFunctionArn`: The function ARN, build from the `AWS_REGION`
-  (defaulting to `us-east-1`), `STUDIO_AWS_ACCOUNT` (defaulting to `0000`) and
-  the Lambda function name.
+  (defaulting to `us-east-1`), `STUDIO_AWS_ACCOUNT` (defaulting to
+  `000000000000`) and the Lambda function name.
 - `memoryLimitInMB`: The configured memory limit. This is currently not
   enforced.
 - `awsRequestId`: The AWS request ID, either from `options` or generated.
