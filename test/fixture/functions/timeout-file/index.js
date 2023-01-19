@@ -2,7 +2,7 @@
 
 exports.handle = function (event, context, callback) {
   setTimeout(() => {
-    // eslint-disable-next-line node/no-callback-literal
+    // eslint-disable-next-line n/no-callback-literal
     callback('E_TOO_LATE');
   }, 200);
 };

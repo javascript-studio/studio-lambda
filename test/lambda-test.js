@@ -609,11 +609,11 @@ describe('lambda', () => {
     after(() => {
       // Remove the node memory report.
       const dir = `${__dirname}/fixture/functions/memory`;
-      // eslint-disable-next-line node/no-sync
+      // eslint-disable-next-line n/no-sync
       fs.readdirSync(dir)
         .filter((file) => file.startsWith('report.'))
         .forEach((file) => {
-          // eslint-disable-next-line node/no-sync
+          // eslint-disable-next-line n/no-sync
           fs.unlinkSync(`${dir}/${file}`);
         });
     });
