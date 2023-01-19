@@ -31,7 +31,7 @@
     "@studio/changes": "^2.1.0",
     "@studio/eslint-config": "^4.0.1",
     "eslint": "^8.32.0",
-    "mocha": "^8.3.2",
+    "mocha": "^10.2.0",
     "prettier": "^2.2.1"
   }
 }
