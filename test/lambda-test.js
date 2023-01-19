@@ -579,7 +579,7 @@ describe('lambda', () => {
     lambda = Lambda.create();
 
     lambda.invoke('throw', {}, (err) => {
-      assert.json(err, { code: 'ERR_FAILED' });
+      assert.json(err, { code: 'E_FAILED' });
       done();
     });
   });
@@ -590,7 +590,7 @@ describe('lambda', () => {
     lambda = Lambda.create();
 
     lambda.invoke('throw-async', {}, (err) => {
-      assert.json(err, { code: 'ERR_FAILED' });
+      assert.json(err, { code: 'E_FAILED' });
       done();
     });
   });
@@ -628,7 +628,7 @@ describe('lambda', () => {
       });
 
       lambda.invoke('memory', {}, (err) => {
-        assert.json(err, { code: 'ERR_FAILED' });
+        assert.json(err, { code: 'E_FAILED' });
         done();
       });
     });
@@ -641,7 +641,7 @@ describe('lambda', () => {
       });
 
       lambda.invoke('memory', {}, (err) => {
-        assert.json(err, { code: 'ERR_FAILED' });
+        assert.json(err, { code: 'E_FAILED' });
         done();
       });
     });
