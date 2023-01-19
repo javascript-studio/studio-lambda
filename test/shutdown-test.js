@@ -28,7 +28,7 @@ describe('shutdown', () => {
   it('fails pending instance', (done) => {
     const lambda = Lambda.create();
     lambda.invoke('hello', { name: 'X' }, (err) => {
-      assert.json(err, { code: 'ERR_FAILED' });
+      assert.json(err, { code: 'E_FAILED' });
 
       const stats = lambda.stats();
 
