@@ -1,5 +1,28 @@
 # Changes
 
+## 4.0.0
+
+- 💥 [`8be1398`](https://github.com/javascript-studio/studio-lambda/commit/8be1398865ee2b415d8fd04436068d495ac586ea)
+  Require node 16
+- 💥 [`496cc52`](https://github.com/javascript-studio/studio-lambda/commit/496cc525838552e0284f740d07d9c5620233366e)
+  Use dynamic import to support loading es modules
+- 💥 [`d458059`](https://github.com/javascript-studio/studio-lambda/commit/d4580593c68ef845a236c03a7be02a6bffbb181a)
+  Change generic destroy error code to `E_FAILED`
+- 🛡 [`8a6a3b3`](https://github.com/javascript-studio/studio-lambda/commit/8a6a3b35a5d28e21502cdbad8140039b8341196f)
+  npm audit
+- ✨ [`6814ed2`](https://github.com/javascript-studio/studio-lambda/commit/6814ed26f83fdec1807e14b42d2a5c8a12afe973)
+  Update Studio Changes
+- ✨ [`0d942b9`](https://github.com/javascript-studio/studio-lambda/commit/0d942b9a8733808958dfec9d6f2071901dc8b597)
+  Upgrade referee-sinon
+- ✨ [`673cc02`](https://github.com/javascript-studio/studio-lambda/commit/673cc0266bdaf961fd8d688d96f0bb6b0221f469)
+  Update prettier
+- ✨ [`5c264ff`](https://github.com/javascript-studio/studio-lambda/commit/5c264ff5560fc7eb4b518f8f3dfd455f9438d6da)
+  Upgrade mocha
+- ✨ [`bf9897b`](https://github.com/javascript-studio/studio-lambda/commit/bf9897bc9a2317d3224b0cf4a0abff5e82872c0c)
+  Upgrade eslint-config and eslint
+
+_Released by [Maximilian Antoni](https://github.com/mantoni) on 2023-01-19._
+
 ## 3.0.2
 
 - 🐛 [`5b7e59e`](https://github.com/javascript-studio/studio-lambda/commit/5b7e59e36d5b041b729ebc41e1b6edf40ad3d390)
