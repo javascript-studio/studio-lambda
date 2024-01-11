@@ -1,5 +1,22 @@
 # Changes
 
+## 4.0.1
+
+- ✨ [`cca2e48`](https://github.com/javascript-studio/studio-lambda/commit/cca2e48693b8b900aa40b296b8ee4bb276be470b)
+  Support node 20 and update GitHub action
+- ✨ [`d64d9ff`](https://github.com/javascript-studio/studio-lambda/commit/d64d9ff20a4f8fec8eb72b49ec0aeef3d75e4d42)
+  Upgrade prettier to v3
+- ✨ [`2670491`](https://github.com/javascript-studio/studio-lambda/commit/267049180cead33e746b75e7c88098b22613a68a)
+  Update eslint config and eslint
+- ✨ [`c27072b`](https://github.com/javascript-studio/studio-lambda/commit/c27072b6a51d755f3c5fec354199a7638f2c0fbf)
+  Update Studio ndjson
+- ✨ [`06c894f`](https://github.com/javascript-studio/studio-lambda/commit/06c894f05c291feb730a86cea9c730bd7312e987)
+  Upgrade Studio Changes
+- ✨ [`4e929c7`](https://github.com/javascript-studio/studio-lambda/commit/4e929c703cd47ab1e1ff8f37145a62c9f459260b)
+  Upgrade @sinonjs/referee-sinon
+
+_Released by [Maximilian Antoni](https://github.com/mantoni) on 2024-01-11._
+
 ## 4.0.0
 
 - 💥 [`8be1398`](https://github.com/javascript-studio/studio-lambda/commit/8be1398865ee2b415d8fd04436068d495ac586ea)
