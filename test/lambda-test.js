@@ -555,7 +555,7 @@ describe('lambda', () => {
 
   it('handles invalid log output', (done) => {
     const lambda_log = logger('Lambda invalid-log');
-    sinon.stub(lambda_log, 'error');
+    sinon.stub(lambda_log, 'ignore');
 
     lambda = Lambda.create();
 
@@ -563,11 +563,8 @@ describe('lambda', () => {
       assert.isNull(err);
 
       assert.calledOnceWith(
-        lambda_log.error,
-        {
-          line: '{"some":"incomplete json output'
-        },
-        match.instanceOf(SyntaxError)
+        lambda_log.ignore,
+        '{"some":"incomplete json output'
       );
       done();
     });
