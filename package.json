@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@studio/log": "^2.0.0",
-    "@studio/ndjson": "^2.0.0"
+    "@studio/ndjson": "^2.1.0"
   },
   "devDependencies": {
     "@sinonjs/referee-sinon": "^12.0.0",
