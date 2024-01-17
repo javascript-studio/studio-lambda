@@ -1,5 +1,20 @@
 # Changes
 
+## 5.0.0
+
+- [`50359f9`](https://github.com/javascript-studio/studio-lambda/commit/50359f942e13f5ff4f2f958ce66ecf4d119c69f1)
+  Use husky and lint-staged
+- [`7c72184`](https://github.com/javascript-studio/studio-lambda/commit/7c721842ffe07ca9dd2ae7507b24267cdbbf1dfb)
+  Drop node 16
+- [`abb5df7`](https://github.com/javascript-studio/studio-lambda/commit/abb5df7ab3400ad5f41511425c3c0c1a13d302a0)
+  Rename master to main
+- [`d0be735`](https://github.com/javascript-studio/studio-lambda/commit/d0be735b756ad7189a9abcabf4e7cf09a50441ee)
+  State MIT license in package.json
+- [`af1f621`](https://github.com/javascript-studio/studio-lambda/commit/af1f6217d7cdd75ad23e12a1abd16469a867eccd)
+  Add LICENSE
+
+_Released by [Maximilian Antoni](https://github.com/mantoni) on 2024-01-17._
+
 ## 4.0.1
 
 - ✨ [`cca2e48`](https://github.com/javascript-studio/studio-lambda/commit/cca2e48693b8b900aa40b296b8ee4bb276be470b)
