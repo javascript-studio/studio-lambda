@@ -1,5 +1,16 @@
 # Changes
 
+## 5.0.1
+
+- 🐛 [`446db5c`](https://github.com/javascript-studio/studio-lambda/commit/446db5c1925c71c71a9d46b8a2594483fe4dab25)
+  Fix max idle overtaking lambda timeout
+- 📚 [`16953a0`](https://github.com/javascript-studio/studio-lambda/commit/16953a0c3d91773c58aa26930e985217010ce962)
+  Add missing documentation for timeout option
+- 📚 [`e582183`](https://github.com/javascript-studio/studio-lambda/commit/e582183c319d65dd66abe5e1a7ee007c6184c541)
+  Remove bad link to apex
+
+_Released by [Maximilian Antoni](https://github.com/mantoni) on 2024-08-28._
+
 ## 5.0.0
 
 - [`50359f9`](https://github.com/javascript-studio/studio-lambda/commit/50359f942e13f5ff4f2f958ce66ecf4d119c69f1)
