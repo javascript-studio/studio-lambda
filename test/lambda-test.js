@@ -476,6 +476,23 @@ describe('lambda', () => {
     });
   });
 
+  it('kills lambda after configured timeout if larger than max_idle', (done) => {
+    sinon.stub(log, 'warn');
+
+    lambda = Lambda.create({
+      max_idle: 25,
+      env: {
+        AWS_PROFILE: 'local'
+      }
+    });
+
+    lambda.invoke('timeout-file', {}, (err) => {
+      assert.json(err, { code: 'E_TIMEOUT' });
+      assert.calledOnce(log.warn);
+      done();
+    });
+  });
+
   it('does not fail to talk to lambda after two where killed', (done) => {
     sinon.stub(log, 'warn');
 
