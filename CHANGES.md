@@ -1,5 +1,22 @@
 # Changes
 
+## 5.0.2
+
+- 🛡️ [`06c78c6`](https://github.com/javascript-studio/studio-lambda/commit/06c78c65364777ddb74d8b2d3aac82ff6f5b88c9)
+  npm audit
+- ✨ [`4ce9011`](https://github.com/javascript-studio/studio-lambda/commit/4ce90110ac4ff82c9ab5d097c55264d41ad725f6)
+  Update lint-staged and husky
+- ✨ [`ff0f750`](https://github.com/javascript-studio/studio-lambda/commit/ff0f7500576307313e15f0dcaaa6cc17932d966f)
+  Update prettier
+- ✨ [`b8e8fd6`](https://github.com/javascript-studio/studio-lambda/commit/b8e8fd622210776fb643abce08608f8661de7f6c)
+  Update mocha
+- ✨ [`005b7b7`](https://github.com/javascript-studio/studio-lambda/commit/005b7b7b022b09916635365a1a9dba89953407ee)
+  Update Studio Log
+- ✨ [`4ebb5a3`](https://github.com/javascript-studio/studio-lambda/commit/4ebb5a38f1fd99591f2b517a12329b968d4a9975)
+  Configure packaged files
+
+_Released by [Maximilian Antoni](https://github.com/mantoni) on 2024-08-28._
+
 ## 5.0.1
 
 - 🐛 [`446db5c`](https://github.com/javascript-studio/studio-lambda/commit/446db5c1925c71c71a9d46b8a2594483fe4dab25)
